@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Hernandez">
+<meta name="theme-color" content="#1F4E79">
+<link rel="apple-touch-icon" href="icon.png">
+<title>Hernandez Site</title>
+<style>
+:root { color-scheme: light; }
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html, body { height: 100%; }
+body { font-family: -apple-system, "Segoe UI", Roboto, sans-serif; background: #f1f3f6; color: #1a2230; padding-bottom: calc(74px + env(safe-area-inset-bottom)); }
+.top { background: #1F4E79; color: #fff; padding: calc(12px + env(safe-area-inset-top)) 16px 12px; position: sticky; top: 0; z-index: 10; }
+.top .t1 { font-size: 16px; font-weight: 800; display: flex; justify-content: space-between; align-items: baseline; }
+.top .cd { font-size: 13px; font-weight: 700; }
+.top .bar { background: rgba(255,255,255,.25); border-radius: 6px; height: 8px; overflow: hidden; margin-top: 8px; }
+.top .fill { background: #6fcf97; height: 100%; transition: width .3s; }
+.top .sub { font-size: 11px; opacity: .85; margin-top: 5px; display: flex; justify-content: space-between; }
+.wrap { padding: 12px; }
+.card { background: #fff; border: 1px solid #e2e6ec; border-radius: 14px; padding: 14px; margin-bottom: 12px; }
+.card h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: #1F4E79; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+.badge { font-size: 11px; background: #eef3f9; color: #1F4E79; border-radius: 10px; padding: 2px 9px; font-weight: 600; }
+.pg { display: none; }
+.pg.on { display: block; }
+.nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; border-top: 1px solid #e2e6ec; display: flex; z-index: 20; padding-bottom: env(safe-area-inset-bottom); }
+.nav button { flex: 1; background: none; border: 0; padding: 9px 2px 7px; font-size: 10px; font-weight: 700; color: #8a93a1; cursor: pointer; }
+.nav button .ic { display: block; font-size: 21px; margin-bottom: 2px; }
+.nav button.on { color: #1F4E79; }
+.item { display: flex; gap: 10px; align-items: flex-start; padding: 10px 4px; border-bottom: 1px solid #f0f2f5; }
+.item input[type=checkbox] { margin-top: 3px; width: 21px; height: 21px; accent-color: #1F4E79; flex-shrink: 0; }
+.item .txt { font-size: 14px; line-height: 1.35; flex: 1; }
+.item .meta { font-size: 11px; color: #6b7686; margin-top: 2px; }
+.item.done .txt { text-decoration: line-through; color: #9aa3b0; }
+.pill { display: inline-block; font-size: 10px; font-weight: 800; border-radius: 8px; padding: 1px 7px; margin-right: 5px; }
+.pill.red { background: #fde3e3; color: #b22; }
+.pill.yel { background: #fdf3d0; color: #8a6d00; }
+.pill.gry { background: #eceff3; color: #5a6472; }
+.addrow { display: flex; gap: 8px; margin-top: 10px; }
+.addrow input { flex: 1; padding: 11px 12px; border: 1px solid #d6dbe3; border-radius: 10px; font-size: 15px; }
+button.btn { background: #1F4E79; color: #fff; border: 0; border-radius: 10px; padding: 11px 16px; font-size: 14px; font-weight: 700; }
+button.ghost { background: #eef3f9; color: #1F4E79; }
+button.sm { padding: 7px 11px; font-size: 12px; border-radius: 8px; }
+button.danger { background: #fff; color: #b22; border: 1px solid #f1c9c9; }
+.note { font-size: 11px; color: #8a93a1; margin-top: 8px; }
+.week { font-size: 14px; line-height: 1.55; }
+.week b { color: #1F4E79; }
+.task { border: 1px solid #e2e6ec; border-radius: 12px; padding: 12px; margin-bottom: 10px; background: #fff; }
+.task.risk { background: #fdeaea; }
+.task.warn { background: #fff8e1; }
+.task.done { background: #e9f7ee; }
+.task .tn { font-weight: 700; font-size: 14px; }
+.task.done .tn { text-decoration: line-through; color: #6f8a78; }
+.task .tw { font-size: 12px; color: #55606e; margin-top: 2px; }
+.task .td { font-size: 12px; color: #1F4E79; font-weight: 700; margin-top: 2px; }
+.task .tnote { font-size: 11px; color: #6b7686; margin-top: 3px; }
+.task .late { color: #b22; }
+.pctrow { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
+.pctrow input[type=range] { flex: 1; accent-color: #1F4E79; height: 30px; }
+.pctrow .pv { font-size: 14px; font-weight: 800; width: 44px; text-align: right; color: #1F4E79; }
+.phase-h { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; color: #163a5c; background: #d6e4f0; border-radius: 8px; padding: 7px 12px; margin: 14px 0 8px; }
+.statrow { display: flex; gap: 8px; margin-bottom: 12px; }
+.scard { flex: 1; background: #fff; border: 1px solid #e2e6ec; border-radius: 10px; padding: 8px 4px; text-align: center; }
+.scard .n { font-size: 17px; font-weight: 800; color: #1F4E79; }
+.scard .l { font-size: 9.5px; color: #6b7686; }
+.room { border: 1px solid #e2e6ec; border-radius: 12px; padding: 12px; margin-bottom: 8px; background: #fff; display: flex; justify-content: space-between; gap: 10px; align-items: center; }
+.room.st-done { background: #e9f7ee; }
+.room.st-prog { background: #fff8e1; }
+.room .rn { font-weight: 700; font-size: 14px; }
+.room .rf { font-size: 11px; color: #6b7686; margin-top: 2px; }
+.room select { border: 1px solid #d6dbe3; border-radius: 9px; padding: 9px 8px; font-size: 13px; background: #fff; flex-shrink: 0; }
+.field { margin-bottom: 10px; }
+.field label { display: block; font-size: 11px; font-weight: 700; color: #55606e; margin-bottom: 4px; text-transform: uppercase; }
+.field input, .field textarea { width: 100%; padding: 11px 12px; border: 1px solid #d6dbe3; border-radius: 10px; font-size: 15px; font-family: inherit; background: #fff; }
+.field textarea { resize: vertical; min-height: 64px; }
+.mp-row { display: flex; gap: 8px; margin-bottom: 8px; }
+.mp-row input.role { flex: 2; } .mp-row input.cnt { flex: 0 0 64px; }
+.sec-block { background: #f7f9fc; border: 1px solid #e6eaf0; border-radius: 10px; padding: 10px; margin-bottom: 8px; }
+.sec-head { display: flex; gap: 8px; margin-bottom: 6px; }
+.sec-head input { flex: 1; font-weight: 700; }
+.mp-row input, .sec-block input, .sec-block textarea { padding: 10px 11px; border: 1px solid #d6dbe3; border-radius: 9px; font-size: 15px; font-family: inherit; width: 100%; }
+.out { background: #10243a; color: #dfe9f5; border-radius: 12px; padding: 13px; font-family: ui-monospace, Menlo, monospace; font-size: 12px; white-space: pre-wrap; line-height: 1.45; margin-top: 10px; }
+.toolbar { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+.copied { background: #1d7a3e !important; }
+.ct { background: #fff; border: 1px solid #e2e6ec; border-radius: 12px; padding: 12px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.ct .cn { font-weight: 700; font-size: 14px; }
+.ct .cr { font-size: 11px; color: #6b7686; }
+.ct a.call { background: #1d7a3e; color: #fff; border-radius: 10px; padding: 9px 14px; font-size: 13px; font-weight: 700; text-decoration: none; flex-shrink: 0; }
+.ct input { border: 1px solid #d6dbe3; border-radius: 8px; padding: 8px; font-size: 13px; width: 100%; margin-top: 4px; }
+.la-row { display: flex; gap: 10px; padding: 8px 2px; border-bottom: 1px solid #f0f2f5; font-size: 13px; align-items: baseline; }
+.la-date { font-weight: 800; color: #1F4E79; white-space: nowrap; width: 80px; }
+.la-task { flex: 1; line-height: 1.3; }
+textarea#siteNotes { width: 100%; min-height: 120px; padding: 12px; border: 1px solid #d6dbe3; border-radius: 10px; font-size: 15px; font-family: inherit; }
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="t1"><span>Hernandez Residence</span><span class="cd"><span id="cdDays">—</span>d to Aug 3</span></div>
+  <div class="bar"><div class="fill" id="hFill" style="width:0%"></div></div>
+  <div class="sub"><span id="hLbl">Overall —</span><span id="cdWork"></span></div>
+</div>
+
+<div class="wrap">
+
+<div class="pg on" id="pg-today">
+  <div class="card">
+    <h2>This Week's Focus</h2>
+    <div class="week">
+      <b>1.</b> Door video to Marlene → finalize spec → ORDER doors<br>
+      <b>2.</b> Tile decision → master bath order Mon 6/15 (+ steam ceiling)<br>
+      <b>3.</b> JJ: confirm baseboards ordered (500 LF riglet)<br>
+      <b>4.</b> Flooring keeps moving — critical path<br>
+      <b>5.</b> Stucco sub by 6/19 • Pool plans to Pristine
+    </div>
+  </div>
+  <div class="card">
+    <h2>Next 14 Days</h2>
+    <div id="lookahead"></div>
+  </div>
+  <div class="card">
+    <h2>Open Items <span class="badge" id="openCount"></span></h2>
+    <div id="items"></div>
+    <div class="addrow">
+      <input id="newItem" placeholder="Add new item…">
+      <button class="btn" onclick="addItem()">Add</button>
+    </div>
+    <div class="toolbar">
+      <button class="ghost btn sm" onclick="toggleDone()" id="toggleBtn">Show completed</button>
+    </div>
+  </div>
+  <div class="card">
+    <h2>Site Notes</h2>
+    <textarea id="siteNotes" placeholder="Measurements, reminders, things to tell JJ… saves automatically."></textarea>
+  </div>
+</div>
+
+<div class="pg" id="pg-sched">
+  <div class="statrow">
+    <div class="scard"><div class="n" id="stPct">0%</div><div class="l">overall</div></div>
+    <div class="scard"><div class="n" id="stDone">0</div><div class="l">done</div></div>
+    <div class="scard"><div class="n" id="stProg">0</div><div class="l">going</div></div>
+    <div class="scard"><div class="n" id="stTodo">0</div><div class="l">not started</div></div>
+    <div class="scard"><div class="n" id="stLate">0</div><div class="l">late start</div></div>
+  </div>
+  <div id="schedList"></div>
+  <div class="note">Slide % as work progresses — saves on this phone. Red = start date passed without starting.</div>
+</div>
+
+<div class="pg" id="pg-rooms">
+  <div class="statrow">
+    <div class="scard"><div class="n" id="rmWood">0%</div><div class="l">wood</div></div>
+    <div class="scard"><div class="n" id="rmTile">0%</div><div class="l">tile</div></div>
+    <div class="scard"><div class="n" id="rmAll">0/0</div><div class="l">rooms done</div></div>
+  </div>
+  <div id="roomList"></div>
+</div>
+
+<div class="pg" id="pg-report">
+  <div class="card">
+    <h2>Daily Report</h2>
+    <div class="field"><label>Date</label><input type="date" id="rDate"></div>
+    <div class="field"><label>Manpower</label>
+      <div id="mpRows"></div>
+      <button class="ghost btn sm" onclick="addMp()">+ Add manpower</button>
+    </div>
+    <div class="field"><label>Work Sections</label>
+      <div id="secBlocks"></div>
+      <button class="ghost btn sm" onclick="addSec()">+ Add section</button>
+    </div>
+    <div class="field"><label>Cleanup &amp; Safety</label>
+      <textarea id="rSafety">House cleaned and organized at the end of the workday.
+No safety incidents reported.</textarea>
+    </div>
+    <div class="field"><label>Pending / Upcoming (carries over)</label>
+      <textarea id="rPending" rows="6"></textarea>
+    </div>
+    <div class="toolbar">
+      <button class="btn" onclick="generate()">Generate</button>
+      <button class="ghost btn" onclick="copyOut(this)">Copy for WhatsApp</button>
+    </div>
+    <div class="out" id="out">Fill in and hit Generate.</div>
+  </div>
+</div>
+
+<div class="pg" id="pg-contacts">
+  <div id="ctList"></div>
+  <button class="ghost btn sm" onclick="addContact()">+ Add contact</button>
+  <div class="note">Tap a name to edit. Green button calls.</div>
+</div>
+
+</div>
+
+<div class="nav">
+  <button class="on" data-pg="today" onclick="nav(this)"><span class="ic">🏠</span>Today</button>
+  <button data-pg="sched" onclick="nav(this)"><span class="ic">📅</span>Schedule</button>
+  <button data-pg="rooms" onclick="nav(this)"><span class="ic">🚪</span>Rooms</button>
+  <button data-pg="report" onclick="nav(this)"><span class="ic">📝</span>Report</button>
+  <button data-pg="contacts" onclick="nav(this)"><span class="ic">📞</span>Calls</button>
+</div>
+
+<script>
+const LS = 'hernandez_mobile_v1';
+let state = null;
+try { state = JSON.parse(localStorage.getItem(LS)); } catch(e) {}
+if (!state) state = {};
+state.taskPct = state.taskPct || {};
+state.rooms = state.rooms || {};
+state.notes = state.notes || '';
+state.contacts = state.contacts || null;
+state.items = Array.isArray(state.items) ? state.items : null;
+state.pending = state.pending || 'Most Urgent: Tile selection and placement of tile order, along with delivery of interior doors and baseboards.\nPouring of concrete at the front entrance.\nShipment of remaining lights and tile materials.\nContinued installation of T&G in the soffit of the house and front carport.\nInstallation of framing in the playroom and final decision on playroom door.';
+function save() { localStorage.setItem(LS, JSON.stringify(state)); }
+
+function nav(btn) {
+  document.querySelectorAll('.pg').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.nav button').forEach(b => b.classList.remove('on'));
+  document.getElementById('pg-' + btn.dataset.pg).classList.add('on');
+  btn.classList.add('on');
+  window.scrollTo(0, 0);
+}
+
+(function(){
+  const now = new Date(); now.setHours(0,0,0,0);
+  const target = new Date(2026, 7, 3);
+  document.getElementById('cdDays').textContent = Math.max(0, Math.round((target - now) / 86400000));
+  let wd = 0; const d = new Date(now);
+  while (d < target) { const w = d.getDay(); if (w !== 0 && w !== 6) wd++; d.setDate(d.getDate() + 1); }
+  document.getElementById('cdWork').textContent = wd + ' work days left';
+})();
+
+const DEFAULT_ITEMS = [
+ {t:'Tile last call: shellstone vs sand dune vs travertine — Anthony & Brittany', d:'Due 6/12', p:'red'},
+ {t:'Send door walkthrough video to Marlene (full-height doors feasible?)', d:'Due 6/12 — Manny', p:'red'},
+ {t:'Confirm with JJ: baseboards ordered (500 LF riglet, lower profile)', d:'Due 6/12 — JJ', p:'red'},
+ {t:'Finalize door spec + revised Signature quote → ORDER DOORS', d:'ASAP — biggest risk', p:'red'},
+ {t:'Place master bath tile order (incl. steam shower ceiling tile)', d:'Mon 6/15 — delivery ~6/18', p:'red'},
+ {t:'Master tub: final specs + drain location to Marlene', d:'6/15 — Anthony', p:'yel'},
+ {t:'Italkraft vanities/built-ins: confirm arrival + install date', d:'6/15', p:'yel'},
+ {t:'Send pool plans to Pristine for 40-ft quote + water feature design', d:'6/15 — Manny → Michael', p:'yel'},
+ {t:'Lock in stucco sub for 7/7 start', d:'6/19 — Manny', p:'yel'},
+ {t:'IKS cabinet fabrication/delivery dates', d:'6/19', p:'yel'},
+ {t:'Appliances: confirm ordered + delivery date', d:'6/19 — Anthony', p:'yel'},
+ {t:'Water closet door spec — answer JJ’s 6 questions', d:'6/19', p:'yel'},
+ {t:'Playroom framing + final door decision', d:'6/19', p:'yel'},
+ {t:'Pour concrete at front entrance', d:'6/19 — Manny', p:'yel'},
+ {t:'Horizontal outlets: change order (~$2k) with Anthony', d:'6/19', p:'yel'},
+ {t:'Front door design + order (Signature)', d:'6/19 — Marlene/JJ', p:'yel'},
+ {t:'Baseboard installer: J&D or Perez?', d:'6/19 — JJ', p:'yel'},
+ {t:'Order light fixtures — needed for trim 7/13', d:'6/26 — Anthony', p:'yel'},
+ {t:'Shower glass: vendor, measure ~7/8, ORDER by 7/10', d:'6/26 — Manny', p:'yel'},
+ {t:'Schedule Acli final paint (~7/20) with Lester', d:'6/26 — Manny', p:'yel'},
+ {t:'Backlit vanity mirror: control + electrical', d:'6/26 — J2BY', p:'yel'},
+ {t:'Fix upside-down front window', d:'6/26 — Manny', p:'yel'},
+ {t:'Driveway: choose material + sub', d:'6/26', p:'yel'},
+ {t:'Pool + driveway inspection dates', d:'TBD', p:'gry'},
+ {t:'+2 recessed lights family room', d:'7/13 — J2BY', p:'gry'},
+ {t:'Closet built-ins schedule', d:'wk of 7/13', p:'gry'},
+ {t:'Permanent fence decision', d:'7/3', p:'gry'},
+ {t:'Landscaping: replace J&Y?', d:'7/3', p:'gry'},
+];
+if (!state.items) state.items = DEFAULT_ITEMS.map(i => ({...i, done: false}));
+function renderItems() {
+  const box = document.getElementById('items');
+  box.innerHTML = '';
+  state.items.forEach((it) => {
+    if (it.done && !state.showDone) return;
+    const div = document.createElement('div');
+    div.className = 'item' + (it.done ? ' done' : '');
+    const cb = document.createElement('input');
+    cb.type = 'checkbox'; cb.checked = it.done;
+    cb.onchange = () => { it.done = cb.checked; save(); renderItems(); };
+    const txt = document.createElement('div'); txt.className = 'txt';
+    const pill = document.createElement('span');
+    pill.className = 'pill ' + (it.p || 'gry');
+    pill.textContent = it.p === 'red' ? 'NOW' : (it.p === 'yel' ? 'SOON' : 'LATER');
+    txt.appendChild(pill);
+    txt.appendChild(document.createTextNode(it.t));
+    const meta = document.createElement('div'); meta.className = 'meta'; meta.textContent = it.d || '';
+    txt.appendChild(meta);
+    div.appendChild(cb); div.appendChild(txt);
+    box.appendChild(div);
+  });
+  document.getElementById('openCount').textContent = state.items.filter(i => !i.done).length + ' open';
+  document.getElementById('toggleBtn').textContent = state.showDone ? 'Hide completed' : 'Show completed (' + state.items.filter(i=>i.done).length + ')';
+}
+function addItem() {
+  const inp = document.getElementById('newItem');
+  if (!inp.value.trim()) return;
+  state.items.unshift({ t: inp.value.trim(), d: 'Added ' + new Date().toLocaleDateString(), p: 'yel', done: false });
+  inp.value = ''; save(); renderItems();
+}
+function toggleDone() { state.showDone = !state.showDone; save(); renderItems(); }
+renderItems();
+
+const SCHED = [
+ ['PHASE','Critical Path — Interior'],
+ [1,'Interior wood flooring — Sunset Wheat (~1,800 SF left)','JP Flooring (Jasiel)','6/10','6/24','CRITICAL PATH','risk0'],
+ [2,'Foyer herringbone — X pattern','JP Flooring','6/22','6/24','',''],
+ [3,'FINALIZE DOOR SPEC + ORDER DOORS (Signature)','Manny / Jasiel','6/12','6/15','BIGGEST RISK — spec not final','risk'],
+ [4,'Install interior doors','TBD carpenter','6/25','7/1','After flooring; before baseboards',''],
+ [5,'Baseboards (riglet) + level 5 finish','TBD (J&D or Perez)','7/2','7/10','500 LF — confirm ordered','warn'],
+ [6,'Final interior paint','Acli (Lester)','7/20','7/28','Not scheduled — book now','warn'],
+ ['PHASE','Bathrooms'],
+ [7,'Master bath tile decision','Anthony & Brittany','6/12','6/12','DUE TOMORROW','warn'],
+ [8,'Place master bath tile order (+ steam ceiling)','Jasiel / Marlene','6/15','6/15','Delivery ~6/18','warn'],
+ [9,'Master bath: drywall → Durock','Eric Hernandez','6/15','6/17','',''],
+ [10,'Tile baths 1–4 (J&J, Bath 3, Pool, Powder)','Eric Hernandez','6/18','7/3','',''],
+ [11,'Master bath tile (walls + curbless + steam ceiling)','Eric Hernandez','6/29','7/8','',''],
+ [12,'Measure shower glass (all baths)','Manny','7/8','7/9','Order by 7/10!','warn'],
+ [13,'Install shower glass, mirrors, accessories','Glass vendor TBD','7/21','7/24','',''],
+ ['PHASE','Millwork & Finishes'],
+ [14,'Cabinet install — kitchen/bar/office/vanities','IKS / Italkraft','7/6','7/17','Confirm delivery','warn'],
+ [15,'Countertop template','Fabricator TBD','7/17','7/17','',''],
+ [16,'Countertop install','Fabricator TBD','7/24','7/27','',''],
+ [17,'Closet built-ins','Marlene\'s carpenters','7/13','7/17','',''],
+ [18,'Electrical trim: outlets/fixtures/+2 lights/vanity','J2BY','7/13','7/24','Fixtures ordered by 6/26!','warn'],
+ [19,'Appliance delivery & install','Anthony / TBD','7/27','7/29','Confirm ordered','warn'],
+ ['PHASE','Exterior'],
+ [20,'Exterior tile & stone (entrance, columns)','Eric Hernandez','6/23','7/11','Concrete pour first',''],
+ [21,'Lock in stucco sub','Manny','6/12','6/19','NOT LOCKED IN','risk'],
+ [22,'Exterior stucco — full residence','Stucco sub TBD','7/7','7/25','',''],
+ [23,'Pool construction (40 ft + water feature)','Pristine (Michael)','6/11','7/24','Send plans for quote','warn'],
+ [24,'Driveway — choose material & sub','Manny / Anthony','6/15','6/26','Inspection required','warn'],
+ [25,'Driveway install + inspection','TBD','7/13','7/24','',''],
+ ['PHASE','Closeout'],
+ [26,'Punch list + touch-ups + hardware','All trades','7/21','7/31','',''],
+ [27,'Deep clean + QC walkthrough','Manny + crew','7/30','7/31','',''],
+ [28,'Client walkthrough / MOVE-IN','Anthony & Brittany','8/3','8/3','HARD DEADLINE','warn'],
+];
+if (state.taskPct['1'] === undefined) state.taskPct['1'] = 15;
+function parseDate(s) { const [m, d] = s.split('/').map(Number); return new Date(2026, m - 1, d); }
+function getPct(n) { return Math.max(0, Math.min(100, Number(state.taskPct[n]) || 0)); }
+function durOf(s, f) { return Math.max(1, Math.round((parseDate(f) - parseDate(s)) / 86400000) + 1); }
+function renderSched() {
+  const box = document.getElementById('schedList');
+  box.innerHTML = '';
+  const today = new Date(); today.setHours(0,0,0,0);
+  let done = 0, prog = 0, todo = 0, late = 0, wSum = 0, wTot = 0;
+  SCHED.forEach(row => {
+    if (row[0] === 'PHASE') {
+      const h = document.createElement('div'); h.className = 'phase-h'; h.textContent = row[1];
+      box.appendChild(h); return;
+    }
+    const [n, task, who, s, f, note, flag] = row;
+    const pct = getPct(n);
+    const w = durOf(s, f);
+    wSum += pct * w; wTot += 100 * w;
+    if (pct >= 100) done++; else if (pct > 0) prog++; else todo++;
+    const startPassed = parseDate(s) <= today && pct === 0;
+    if (startPassed) late++;
+    const div = document.createElement('div');
+    div.className = 'task ' + (pct >= 100 ? 'done' : flag === 'risk' ? 'risk' : flag === 'warn' ? 'warn' : '');
+    div.innerHTML = '<div class="tn">' + n + '. ' + task + '</div>' +
+      '<div class="tw">' + who + '</div>' +
+      '<div class="td' + (startPassed ? ' late' : '') + '">' + s + ' → ' + f + (startPassed ? ' — START PASSED' : '') + '</div>' +
+      (note ? '<div class="tnote">' + note + '</div>' : '') +
+      '<div class="pctrow"><input type="range" min="0" max="100" step="5" value="' + pct + '" data-n="' + n + '"><span class="pv">' + pct + '%</span></div>';
+    box.appendChild(div);
+  });
+  const overall = wTot ? Math.round(100 * wSum / wTot) : 0;
+  document.getElementById('stPct').textContent = overall + '%';
+  document.getElementById('stDone').textContent = done;
+  document.getElementById('stProg').textContent = prog;
+  document.getElementById('stTodo').textContent = todo;
+  document.getElementById('stLate').textContent = late;
+  document.getElementById('hFill').style.width = overall + '%';
+  document.getElementById('hLbl').textContent = 'Overall ' + overall + '%';
+  box.querySelectorAll('input[type=range]').forEach(sl => {
+    sl.oninput = () => { sl.closest('.pctrow').querySelector('.pv').textContent = sl.value + '%'; };
+    sl.onchange = () => { state.taskPct[sl.dataset.n] = Number(sl.value); save(); renderSched(); renderLookahead(); };
+  });
+}
+function renderLookahead() {
+  const box = document.getElementById('lookahead');
+  box.innerHTML = '';
+  const today = new Date(); today.setHours(0,0,0,0);
+  const end = new Date(today); end.setDate(end.getDate() + 14);
+  const rows = SCHED.filter(r => r[0] !== 'PHASE').map(r => ({ n: r[0], t: r[1], s: parseDate(r[3]), f: parseDate(r[4]) }))
+    .filter(r => getPct(r.n) < 100 && r.s <= end && r.f >= today)
+    .sort((a, b) => a.s - b.s);
+  if (!rows.length) { box.innerHTML = '<div class="note">Nothing in the next two weeks.</div>'; return; }
+  const fmt = d => (d.getMonth() + 1) + '/' + d.getDate();
+  rows.forEach(r => {
+    const div = document.createElement('div'); div.className = 'la-row';
+    const started = getPct(r.n) > 0;
+    div.innerHTML = '<div class="la-date">' + fmt(r.s) + '–' + fmt(r.f) + '</div><div class="la-task">' + r.t + (started ? ' <span class="pill yel">' + getPct(r.n) + '%</span>' : '') + '</div>';
+    box.appendChild(div);
+  });
+}
+renderSched(); renderLookahead();
+
+const ROOMS = [
+ ['Foyer','Herringbone X — 5×36','wood'],
+ ['Master Bedroom','Wood plank (hold 3 ft at built-ins?)','wood'],
+ ['Bedroom 1','Wood plank','wood'],
+ ['Bedroom 2','Wood plank','wood'],
+ ['Bedroom 3','Wood plank','wood'],
+ ['Family Room','Wood plank','wood'],
+ ['Kitchen','Wood plank','wood'],
+ ['Dining Room','Wood plank','wood'],
+ ['Studio','Wood plank','wood'],
+ ['Playroom','Wood plank','wood'],
+ ['Bar','Wood plank','wood'],
+ ['Office','Wood plank','wood'],
+ ['Master Bath + W.C.','24×48 shellstone, steam, curbless','tile'],
+ ['J&J Bathroom','24×48 tile','tile'],
+ ['Bathroom 3','24×48 tile','tile'],
+ ['Pool Bath','24×48 tile','tile'],
+ ['Powder Bath','Tile','tile'],
+ ['Laundry','12×12 tile','tile'],
+ ['Mudroom','Tile','tile'],
+];
+function renderRooms() {
+  const box = document.getElementById('roomList');
+  box.innerHTML = '';
+  let woodDone = 0, woodTot = 0, tileDone = 0, tileTot = 0, allDone = 0;
+  ROOMS.forEach(([name, finish, kind]) => {
+    const st = state.rooms[name] || 'todo';
+    if (kind === 'wood') { woodTot++; if (st === 'done') woodDone++; }
+    else { tileTot++; if (st === 'done') tileDone++; }
+    if (st === 'done') allDone++;
+    const div = document.createElement('div');
+    div.className = 'room ' + (st === 'done' ? 'st-done' : st === 'prog' ? 'st-prog' : '');
+    div.innerHTML = '<div><div class="rn">' + name + '</div><div class="rf">' + finish + '</div></div>' +
+      '<select data-room="' + name + '">' +
+      '<option value="todo"' + (st==='todo'?' selected':'') + '>Not started</option>' +
+      '<option value="prog"' + (st==='prog'?' selected':'') + '>In progress</option>' +
+      '<option value="done"' + (st==='done'?' selected':'') + '>Done ✓</option>' +
+      '</select>';
+    box.appendChild(div);
+  });
+  document.getElementById('rmWood').textContent = woodTot ? Math.round(100 * woodDone / woodTot) + '%' : '—';
+  document.getElementById('rmTile').textContent = tileTot ? Math.round(100 * tileDone / tileTot) + '%' : '—';
+  document.getElementById('rmAll').textContent = allDone + '/' + ROOMS.length;
+  box.querySelectorAll('select').forEach(sel => {
+    sel.onchange = () => { state.rooms[sel.dataset.room] = sel.value; save(); renderRooms(); };
+  });
+}
+renderRooms();
+
+const notesEl = document.getElementById('siteNotes');
+notesEl.value = state.notes || '';
+notesEl.addEventListener('input', () => { state.notes = notesEl.value; save(); });
+
+const DEFAULT_CONTACTS = [
+ ['Jasiel Jimenez (JJ)','J Construction — GC',''],
+ ['Anthony Hernandez','Client',''],
+ ['Brittany Hernandez','Client',''],
+ ['Marlene Murrah','Interior Designer','3059684671'],
+ ['Jasiel','JP Flooring',''],
+ ['Eric Hernandez','Tile',''],
+ ['Michael Mckercher','Pristine Pools',''],
+ ['Lester Barrientos','Acli Painting',''],
+ ['Fedor','New Vision — AV',''],
+ ['','J2BY Electrical',''],
+];
+if (!state.contacts) state.contacts = DEFAULT_CONTACTS.map(c => ({ n: c[0], r: c[1], p: c[2] }));
+function renderContacts() {
+  const box = document.getElementById('ctList');
+  box.innerHTML = '';
+  state.contacts.forEach((c, i) => {
+    const div = document.createElement('div'); div.className = 'ct';
+    const left = document.createElement('div'); left.style.flex = '1';
+    if (state.editCt === i) {
+      const nm = document.createElement('input'); nm.value = c.n; nm.placeholder = 'Name';
+      const rl = document.createElement('input'); rl.value = c.r; rl.placeholder = 'Role';
+      const ph = document.createElement('input'); ph.value = c.p; ph.placeholder = 'Phone'; ph.type = 'tel';
+      nm.oninput = () => { c.n = nm.value; save(); };
+      rl.oninput = () => { c.r = rl.value; save(); };
+      ph.oninput = () => { c.p = ph.value; save(); };
+      const doneBtn = document.createElement('button'); doneBtn.className = 'btn sm'; doneBtn.textContent = 'Done'; doneBtn.style.marginTop = '6px';
+      doneBtn.onclick = () => { state.editCt = null; save(); renderContacts(); };
+      const delBtn = document.createElement('button'); delBtn.className = 'danger btn sm'; delBtn.textContent = 'Delete'; delBtn.style.cssText = 'margin-top:6px;margin-left:6px;';
+      delBtn.onclick = () => { state.contacts.splice(i, 1); state.editCt = null; save(); renderContacts(); };
+      left.appendChild(nm); left.appendChild(rl); left.appendChild(ph); left.appendChild(doneBtn); left.appendChild(delBtn);
+    } else {
+      left.innerHTML = '<div class="cn">' + (c.n || '(no name)') + '</div><div class="cr">' + c.r + (c.p ? ' • ' + c.p : '') + '</div>';
+      left.onclick = () => { state.editCt = i; renderContacts(); };
+    }
+    div.appendChild(left);
+    if (c.p && state.editCt !== i) {
+      const a = document.createElement('a'); a.className = 'call'; a.href = 'tel:' + c.p.replace(/[^0-9+]/g, ''); a.textContent = 'Call';
+      div.appendChild(a);
+    }
+    box.appendChild(div);
+  });
+}
+function addContact() { state.contacts.push({ n: '', r: '', p: '' }); state.editCt = state.contacts.length - 1; save(); renderContacts(); }
+renderContacts();
+
+document.getElementById('rDate').value = new Date().toISOString().slice(0, 10);
+document.getElementById('rPending').value = state.pending || '';
+document.getElementById('rPending').addEventListener('input', e => { state.pending = e.target.value; save(); });
+
+function addMp(role, cnt) {
+  const row = document.createElement('div'); row.className = 'mp-row';
+  row.innerHTML = '<input class="role" placeholder="Role"><input class="cnt" placeholder="#" inputmode="numeric"><button class="danger btn sm" onclick="this.parentNode.remove()">×</button>';
+  if (role) row.querySelector('.role').value = role;
+  if (cnt) row.querySelector('.cnt').value = cnt;
+  document.getElementById('mpRows').appendChild(row);
+}
+function addSec(title) {
+  const b = document.createElement('div'); b.className = 'sec-block';
+  b.innerHTML = '<div class="sec-head"><input class="sec-title" placeholder="Section (e.g. Flooring)"><button class="danger btn sm" onclick="this.closest(\'.sec-block\').remove()">×</button></div><textarea class="sec-body" placeholder="One line per bullet…"></textarea>';
+  if (title) b.querySelector('.sec-title').value = title;
+  document.getElementById('secBlocks').appendChild(b);
+}
+addMp('Floor Installers', '3'); addMp('Supervision', '1');
+addSec('Flooring'); addSec('Supervision');
+
+function generate() {
+  const d = new Date(document.getElementById('rDate').value + 'T12:00:00');
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const dateStr = months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+  const SEP = '\n\n⸻\n\n';
+  let r = 'PROJECT: 10869 SW 139 Rd\nADDRESS: Miami, FL\nDATE: ' + dateStr + '\nDAILY REPORT';
+  let mp = 'Manpower on Site\n\n';
+  document.querySelectorAll('.mp-row').forEach(row => {
+    const role = row.querySelector('.role').value.trim();
+    const cnt = row.querySelector('.cnt').value.trim();
+    if (role) mp += '* ' + role + (cnt ? ': ' + cnt : '') + '\n';
+  });
+  r += SEP + mp.trimEnd();
+  let secs = '';
+  document.querySelectorAll('.sec-block').forEach(b => {
+    const title = b.querySelector('.sec-title').value.trim();
+    const body = b.querySelector('.sec-body').value.trim();
+    if (!title || !body) return;
+    secs += (secs ? '\n\n' : '') + title + '\n\n' + body.split('\n').filter(l => l.trim()).map(l => '* ' + l.replace(/^[\*\-•]\s*/, '').trim()).join('\n');
+  });
+  if (secs) r += SEP + secs;
+  const safety = document.getElementById('rSafety').value.trim();
+  if (safety) r += SEP + 'General Cleanup & Safety\n\n' + safety.split('\n').filter(l => l.trim()).map(l => '* ' + l.replace(/^[\*\-•]\s*/, '').trim()).join('\n');
+  const pending = document.getElementById('rPending').value.trim();
+  if (pending) r += SEP + 'Pending / Upcoming Work\n\n' + pending.split('\n').filter(l => l.trim()).map(l => '* ' + l.replace(/^[\*\-•]\s*/, '').trim()).join('\n');
+  document.getElementById('out').textContent = r;
+  return r;
+}
+function copyOut(btn) {
+  const txt = generate();
+  navigator.clipboard.writeText(txt).then(() => {
+    btn.classList.add('copied'); btn.textContent = 'Copied ✓';
+    setTimeout(() => { btn.classList.remove('copied'); btn.textContent = 'Copy for WhatsApp'; }, 1800);
+  }).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = txt; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+    btn.textContent = 'Copied ✓';
+    setTimeout(() => { btn.textContent = 'Copy for WhatsApp'; }, 1800);
+  });
+}
+</script>
+</body>
+</html>
