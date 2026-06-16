@@ -245,7 +245,7 @@ textarea#siteNotes { width: 100%; min-height: 120px; padding: 12px; border: 1px 
     <h2 id="noteFormTitle">New Walkthrough Note</h2>
     <div class="field"><label>Date</label><input type="date" id="nDate"></div>
     <div class="field"><label>Walkthrough with</label><div class="chips" id="nWhoChips"></div></div>
-    <div class="field"><label>Room / Area</label><select id="nRoom"></select></div>
+    <div class="field"><label>Room(s) / Area</label><div class="chips" id="nRoomChips"></div></div>
     <div class="field"><label>Title / Topic</label><input id="nTitle" placeholder="e.g. Master bath tile layout"></div>
     <div class="field"><label>Notes</label><textarea id="nBody" rows="5" placeholder="What was discussed or decided&hellip;"></textarea></div>
     <div class="toolbar">
@@ -849,48 +849,85 @@ openDB().then(async () => { photos = await idbAll('photos'); files = await idbAl
 
 /* ============ walkthrough notes ============ */
 const WHO_OPTS = ['Client','Interior Designer','Contractor','Other'];
-let noteWhoSel = [], editingNoteId = null;
+const ROOM_OPTS = [...ROOM_NAMES, 'Exterior', 'Whole house'];
+let noteWhoSel = [], noteRoomSel = [], editingNoteId = null;
+// migrate single-room notes -> rooms array (preserves existing entries, no reset)
+(function migrateNotes(){
+  let changed = false;
+  state.walkNotes.forEach(n => { if (!Array.isArray(n.rooms)) { n.rooms = n.room ? [n.room] : []; changed = true; } });
+  if (changed) save();
+})();
+function noteRoomsOf(n){ return Array.isArray(n.rooms) ? n.rooms : (n.room ? [n.room] : []); }
 function buildNoteForm(){
   document.getElementById('nDate').value = todayStr();
-  const rs = document.getElementById('nRoom');
-  rs.innerHTML = '<option value="">— no specific room —</option>' + ROOM_NAMES.map(r=>'<option value="'+esc(r)+'">'+esc(r)+'</option>').join('') + '<option value="Exterior">Exterior</option><option value="Whole house">Whole house</option>';
-  renderWhoChips();
+  renderWhoChips(); renderRoomChips();
 }
 function renderWhoChips(){
   const box = document.getElementById('nWhoChips'); box.innerHTML='';
   WHO_OPTS.forEach(w => { const c = document.createElement('span'); c.className = 'chip' + (noteWhoSel.includes(w) ? ' on' : ''); c.textContent = w;
     c.onclick = () => { if(noteWhoSel.includes(w)) noteWhoSel = noteWhoSel.filter(x=>x!==w); else noteWhoSel.push(w); renderWhoChips(); }; box.appendChild(c); });
 }
+function renderRoomChips(){
+  const box = document.getElementById('nRoomChips'); box.innerHTML='';
+  ROOM_OPTS.forEach(r => { const c = document.createElement('span'); c.className = 'chip room-chip' + (noteRoomSel.includes(r) ? ' on' : ''); c.textContent = r;
+    c.onclick = () => { if(noteRoomSel.includes(r)) noteRoomSel = noteRoomSel.filter(x=>x!==r); else noteRoomSel.push(r); renderRoomChips(); }; box.appendChild(c); });
+}
 function saveNote(){
   const title = document.getElementById('nTitle').value.trim();
   const body = document.getElementById('nBody').value.trim();
   if(!title && !body){ alert('Add a title or some notes first.'); return; }
-  const rec = { id: editingNoteId || uid(), date: document.getElementById('nDate').value || todayStr(), who: noteWhoSel.slice(), room: document.getElementById('nRoom').value, title, body };
+  const rec = { id: editingNoteId || uid(), date: document.getElementById('nDate').value || todayStr(), who: noteWhoSel.slice(), rooms: noteRoomSel.slice(), title, body };
   if(editingNoteId){ const i = state.walkNotes.findIndex(n=>n.id===editingNoteId); if(i>=0) state.walkNotes[i]=rec; }
   else state.walkNotes.unshift(rec);
   save(); clearNoteForm(); renderNotes();
 }
 function clearNoteForm(){
-  editingNoteId = null; noteWhoSel = [];
+  editingNoteId = null; noteWhoSel = []; noteRoomSel = [];
   document.getElementById('nTitle').value=''; document.getElementById('nBody').value='';
-  document.getElementById('nDate').value=todayStr(); document.getElementById('nRoom').value='';
+  document.getElementById('nDate').value=todayStr();
   document.getElementById('noteFormTitle').textContent='New Walkthrough Note';
   document.getElementById('noteSaveBtn').textContent='Save Note';
   document.getElementById('noteCancelBtn').style.display='none';
-  renderWhoChips();
+  renderWhoChips(); renderRoomChips();
 }
 function editNote(id){
   const n = state.walkNotes.find(x=>x.id===id); if(!n) return;
-  editingNoteId = id; noteWhoSel = (n.who||[]).slice();
-  document.getElementById('nDate').value=n.date; document.getElementById('nRoom').value=n.room||'';
+  editingNoteId = id; noteWhoSel = (n.who||[]).slice(); noteRoomSel = noteRoomsOf(n).slice();
+  document.getElementById('nDate').value=n.date;
   document.getElementById('nTitle').value=n.title||''; document.getElementById('nBody').value=n.body||'';
   document.getElementById('noteFormTitle').textContent='Edit Note';
   document.getElementById('noteSaveBtn').textContent='Update';
   document.getElementById('noteCancelBtn').style.display='';
-  renderWhoChips(); window.scrollTo(0,0);
+  renderWhoChips(); renderRoomChips(); window.scrollTo(0,0);
 }
 function deleteNote(id){ if(!confirm('Delete this note?')) return; state.walkNotes = state.walkNotes.filter(n=>n.id!==id); save(); if(editingNoteId===id) clearNoteForm(); renderNotes(); }
 function setNoteFilter(v){ state.noteWhoFilter=v; save(); renderNotes(); }
+function noteShareText(n){
+  const who = (n.who||[]); const rooms = noteRoomsOf(n);
+  const lines = ['Walkthrough Note — ' + fmtDay(n.date)];
+  if(who.length) lines.push('With: ' + who.join(', '));
+  if(rooms.length) lines.push('Room(s): ' + rooms.join(', '));
+  if(n.title) lines.push('', n.title);
+  if(n.body) lines.push('', n.body);
+  return lines.join('\n');
+}
+function legacyCopy(text, cb){
+  try { const ta=document.createElement('textarea'); ta.value=text; ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.focus(); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); } catch(e){}
+  if(cb) cb();
+}
+function flashCopied(id){
+  const b=document.getElementById('sh-'+id); if(!b) return; const t=b.textContent;
+  b.textContent='Copied ✓'; b.classList.add('copied');
+  setTimeout(()=>{ b.textContent=t; b.classList.remove('copied'); }, 1600);
+}
+function shareNote(id){
+  const n = state.walkNotes.find(x=>x.id===id); if(!n) return;
+  const text = noteShareText(n);
+  const title = n.title || ('Walkthrough Note — ' + fmtDay(n.date));
+  if(navigator.share){ navigator.share({ title: title, text: text }).catch(()=>{}); return; }
+  if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(text).then(()=>flashCopied(id)).catch(()=>legacyCopy(text, ()=>flashCopied(id))); }
+  else { legacyCopy(text, ()=>flashCopied(id)); }
+}
 function renderNotes(){
   document.getElementById('noteWhoFilter').value = state.noteWhoFilter;
   let list = state.walkNotes.slice().sort((a,b)=> (b.date||'').localeCompare(a.date||''));
@@ -902,11 +939,12 @@ function renderNotes(){
   list.forEach(n => {
     const card = document.createElement('div'); card.className='ncard';
     const whoChips = (n.who||[]).map(w=>'<span class="chip ro">'+esc(w)+'</span>').join('');
-    const roomChip = n.room ? '<span class="chip ro room-chip">'+esc(n.room)+'</span>' : '';
+    const roomChips = noteRoomsOf(n).map(r=>'<span class="chip ro room-chip">'+esc(r)+'</span>').join('');
     card.innerHTML = '<div class="nctop"><span class="nd">'+fmtDay(n.date)+'</span>' +
-        '<span><button class="ghost btn sm" onclick="editNote(\''+n.id+'\')">Edit</button> ' +
+        '<span class="nbtns"><button class="ghost btn sm" id="sh-'+n.id+'" onclick="shareNote(\''+n.id+'\')">Share</button> ' +
+        '<button class="ghost btn sm" onclick="editNote(\''+n.id+'\')">Edit</button> ' +
         '<button class="danger btn sm" onclick="deleteNote(\''+n.id+'\')">Del</button></span></div>' +
-      ((whoChips||roomChip)?'<div class="chips" style="margin-top:8px;">'+whoChips+roomChip+'</div>':'') +
+      ((whoChips||roomChips)?'<div class="chips" style="margin-top:8px;">'+whoChips+roomChips+'</div>':'') +
       (n.title?'<div class="nt">'+esc(n.title)+'</div>':'') +
       (n.body?'<div class="nb">'+esc(n.body)+'</div>':'');
     box.appendChild(card);
