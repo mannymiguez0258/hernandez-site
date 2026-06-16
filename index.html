@@ -83,6 +83,7 @@ button.danger { background: #000; color: #f99; border: 1px solid #633; }
 .field label { display: block; font-family: 'Michroma', sans-serif; font-size: 9px; letter-spacing: .16em; color: #aaa; margin-bottom: 6px; text-transform: uppercase; }
 .field input, .field textarea { width: 100%; padding: 11px 12px; border: 1px solid #444; background: #000; color: #fff; font-size: 15px; font-family: -apple-system, sans-serif; }
 .field textarea { resize: vertical; min-height: 64px; }
+#nBody { min-height: 168px; resize: vertical; }
 .mp-row { display: flex; gap: 8px; margin-bottom: 8px; }
 .mp-row input.role { flex: 2; } .mp-row input.cnt { flex: 0 0 64px; }
 .sec-block { background: #0a0a0a; border: 1px solid #2e2e2e; padding: 10px; margin-bottom: 8px; }
@@ -247,7 +248,7 @@ textarea#siteNotes { width: 100%; min-height: 120px; padding: 12px; border: 1px 
     <div class="field"><label>Walkthrough with</label><div class="chips" id="nWhoChips"></div></div>
     <div class="field"><label>Room(s) / Area</label><div class="chips" id="nRoomChips"></div></div>
     <div class="field"><label>Title / Topic</label><input id="nTitle" placeholder="e.g. Master bath tile layout"></div>
-    <div class="field"><label>Notes</label><textarea id="nBody" rows="5" placeholder="What was discussed or decided&hellip;"></textarea></div>
+    <div class="field"><label>Notes</label><textarea id="nBody" rows="7" placeholder="What was discussed or decided&hellip;"></textarea></div>
     <div class="toolbar">
       <button class="btn" onclick="saveNote()" id="noteSaveBtn">Save Note</button>
       <button class="ghost btn" onclick="clearNoteForm()" id="noteCancelBtn" style="display:none;">Cancel</button>
