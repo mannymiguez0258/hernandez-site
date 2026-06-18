@@ -269,6 +269,16 @@ textarea#siteNotes { width: 100%; min-height: 120px; padding: 12px; border: 1px 
 </div>
 
 <div class="pg" id="pg-files">
+  <div class="card">
+    <h2>Backup &amp; Restore <span class="badge">all tabs</span></h2>
+    <div class="note" style="margin:0 0 10px;">Export saves your notes, checklist, schedule %, room statuses and contacts to a file you can send to another phone. Import merges a backup back in &mdash; it won't erase what's already here. (Photos &amp; stored files aren't included.)</div>
+    <div class="toolbar">
+      <button class="btn" onclick="exportBackup()">Export Backup</button>
+      <button class="ghost btn" onclick="document.getElementById('importInput').click()">Import Backup</button>
+      <input type="file" id="importInput" accept="application/json,.json" style="display:none" onchange="importBackup(this.files); this.value='';">
+    </div>
+    <div id="backupMsg" class="note" style="margin-top:8px;"></div>
+  </div>
   <div class="fbar">
     <button class="btn sm" onclick="document.getElementById('fileInput').click()">+ Add Files</button>
     <input type="file" id="fileInput" multiple style="display:none" onchange="uploadFiles(this.files); this.value='';">
@@ -847,6 +857,79 @@ function renderFiles(){
 
 openDB().then(async () => { photos = await idbAll('photos'); files = await idbAll('files'); dbReady = true; renderPhotos(); renderFiles(); })
   .catch(err => { dbError = (err && err.message) ? err.message : String(err); renderPhotos(); renderFiles(); });
+
+/* ============ backup / restore (export + import localStorage) ============ */
+function setBackupMsg(m){ const el=document.getElementById('backupMsg'); if(el) el.textContent=m; }
+function downloadBlob(blob, fname){
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href=url; a.download=fname; document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(url), 4000);
+  setBackupMsg('Exported ' + fname + ' \u2014 check your downloads / share sheet.');
+}
+function exportBackup(){
+  const data = {};
+  for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); data[k]=localStorage.getItem(k); }
+  const payload = { app:'hernandez-site', type:'backup', version:1, exportedAt:new Date().toISOString(), data:data };
+  const json = JSON.stringify(payload, null, 2);
+  const fname = 'hernandez-backup-' + todayStr() + '.json';
+  const blob = new Blob([json], {type:'application/json'});
+  try {
+    if(navigator.canShare){
+      const file = new File([blob], fname, {type:'application/json'});
+      if(navigator.canShare({files:[file]})){
+        navigator.share({files:[file], title:'Hernandez backup', text:'Hernandez Site backup'}).then(()=>setBackupMsg('Shared '+fname)).catch(()=>downloadBlob(blob, fname));
+        return;
+      }
+    }
+  } catch(e){}
+  downloadBlob(blob, fname);
+}
+function mergeByKeyIncoming(ex, inc, keyFn){
+  const map = new Map(); const order = [];
+  (ex||[]).forEach(o=>{ const k=keyFn(o); if(!map.has(k)) order.push(k); map.set(k,o); });
+  (inc||[]).forEach(o=>{ const k=keyFn(o); if(!map.has(k)) order.push(k); map.set(k,o); });
+  return order.map(k=>map.get(k));
+}
+function mergeState(ex, inc){
+  const out = Object.assign({}, ex);
+  for(const k in inc){
+    const iv = inc[k];
+    if(k==='walkNotes'){ out.walkNotes = mergeByKeyIncoming(ex.walkNotes, iv, o=> (o && o.id) ? o.id : JSON.stringify(o)); }
+    else if(k==='items'){ out.items = mergeByKeyIncoming(ex.items, iv, o=> (o && o.t) ? o.t : JSON.stringify(o)); }
+    else if(k==='contacts'){ out.contacts = mergeByKeyIncoming(ex.contacts, iv, o=> ((o&&o.n)||'')+'|'+((o&&o.r)||'')); }
+    else if(iv && typeof iv==='object' && !Array.isArray(iv)){ out[k] = Object.assign({}, ex[k]||{}, iv); }
+    else { out[k] = iv; }
+  }
+  return out;
+}
+function importBackup(fileList){
+  const f = (fileList||[])[0]; if(!f) return;
+  const reader = new FileReader();
+  reader.onerror = () => alert('Could not read that file.');
+  reader.onload = () => {
+    let payload;
+    try { payload = JSON.parse(reader.result); } catch(e){ alert('That file is not valid JSON.'); return; }
+    const data = (payload && payload.data && typeof payload.data==='object') ? payload.data : ((payload && payload[LS]) ? payload : null);
+    if(!data || typeof data !== 'object'){ alert('This does not look like a Hernandez backup file.'); return; }
+    let incNotes = 0; try { incNotes = (JSON.parse(data[LS]||'{}').walkNotes||[]).length; } catch(e){}
+    if(!confirm('Import this backup? It will MERGE ' + incNotes + ' note(s) plus checklist, schedule and room data into this device. Nothing already here will be deleted.')) return;
+    try {
+      for(const k in data){
+        if(k === LS){
+          let ex={}, inc={};
+          try { ex = JSON.parse(localStorage.getItem(LS)||'{}'); } catch(e){}
+          try { inc = JSON.parse(data[k]); } catch(e){ inc={}; }
+          localStorage.setItem(LS, JSON.stringify(mergeState(ex, inc)));
+        } else if(localStorage.getItem(k) === null){
+          localStorage.setItem(k, data[k]);
+        }
+      }
+      alert('Backup imported. The app will now reload to show everything.');
+      location.reload();
+    } catch(e){ alert('Import failed: ' + e); }
+  };
+  reader.readAsText(f);
+}
 
 /* ============ walkthrough notes ============ */
 const WHO_OPTS = ['Client','Interior Designer','Contractor','Other'];
