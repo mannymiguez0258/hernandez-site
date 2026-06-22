@@ -55,23 +55,23 @@ button.danger { background: #000; color: #f99; border: 1px solid #633; }
 .note { font-size: 11px; color: #777; margin-top: 10px; line-height: 1.4; }
 .week { font-size: 14px; line-height: 1.6; color: #e8e8e8; }
 .week b { color: #fff; }
-.task { border: 1px solid #2e2e2e; border-left: 3px solid #444; padding: 12px; margin-bottom: 10px; background: #0d0d0d; }
+.task { border: 1px solid #2e2e2e; border-left: 3px solid #444; padding: 8px 10px; margin-bottom: 6px; background: #0d0d0d; }
 .task.risk { border-left-color: #fff; background: #161010; }
 .task.warn { border-left-color: #999; background: #14120c; }
 .task.done { border-left-color: #4a7; background: #0c140e; }
-.task .tn { font-weight: 700; font-size: 14px; color: #fff; }
+.task .tn { font-weight: 700; font-size: 13px; color: #fff; }
 .task.done .tn { text-decoration: line-through; color: #6a8a74; }
-.task .tw { font-size: 12px; color: #999; margin-top: 2px; }
-.task .td { font-size: 11px; font-family: 'Michroma', sans-serif; color: #ccc; margin-top: 4px; letter-spacing: .06em; }
-.task .tnote { font-size: 11px; color: #888; margin-top: 3px; }
+.task .tw { font-size: 11px; color: #999; margin-top: 1px; }
+.task .td { font-size: 10px; font-family: 'Michroma', sans-serif; color: #ccc; margin-top: 3px; letter-spacing: .05em; }
+.task .tnote { font-size: 10.5px; color: #888; margin-top: 2px; }
 .task .late { color: #ff8484 !important; }
-.pctrow { display: flex; align-items: center; gap: 10px; margin-top: 9px; }
-.pctrow input[type=range] { flex: 1; accent-color: #fff; height: 30px; }
+.pctrow { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
+.pctrow input[type=range] { flex: 1; accent-color: #fff; height: 22px; }
 .pctrow .pv { font-family: 'Michroma', sans-serif; font-size: 12px; width: 48px; text-align: right; color: #fff; }
-.phase-h { font-family: 'Michroma', sans-serif; font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: #fff; border-bottom: 1px solid #fff; padding: 14px 0 8px; margin: 10px 0 10px; }
-.statrow { display: flex; gap: 8px; margin-bottom: 12px; }
-.scard { flex: 1; background: #0d0d0d; border: 1px solid #2e2e2e; padding: 10px 4px; text-align: center; }
-.scard .n { font-family: 'Michroma', sans-serif; font-size: 14px; color: #fff; }
+.phase-h { font-family: 'Michroma', sans-serif; font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: #fff; border-bottom: 1px solid #fff; padding: 9px 0 5px; margin: 6px 0 8px; }
+.statrow { display: flex; gap: 6px; margin-bottom: 8px; }
+.scard { flex: 1; background: #0d0d0d; border: 1px solid #2e2e2e; padding: 7px 3px; text-align: center; }
+.scard .n { font-family: 'Michroma', sans-serif; font-size: 13px; color: #fff; }
 .scard .l { font-size: 9px; color: #888; margin-top: 3px; text-transform: uppercase; letter-spacing: .06em; }
 .room { border: 1px solid #2e2e2e; border-left: 3px solid #444; padding: 12px; margin-bottom: 8px; background: #0d0d0d; display: flex; justify-content: space-between; gap: 10px; align-items: center; }
 .room.st-done { border-left-color: #4a7; background: #0c140e; }
@@ -157,6 +157,22 @@ textarea#siteNotes { width: 100%; min-height: 120px; padding: 12px; border: 1px 
 .chip.ro { cursor: default; }
 .chip.room-chip { border-color: #6b5; color: #cda; }
 .field select { width: 100%; padding: 11px 12px; border: 1px solid #444; background: #000; color: #fff; font-size: 15px; font-family: -apple-system, sans-serif; }
+/* ---- subcontractors ---- */
+.sub { border: 1px solid #2e2e2e; border-left: 3px solid #444; background: #0d0d0d; padding: 10px; margin-bottom: 8px; }
+.sub.st-sched { border-left-color: #6ca0d8; }
+.sub.st-onsite { border-left-color: #e0b341; background: #14120c; }
+.sub.st-done { border-left-color: #4a7; background: #0c140e; }
+.subtop { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+.subname { font-weight: 700; font-size: 14px; color: #fff; }
+.subtrade { font-size: 11px; color: #999; }
+.subline { font-size: 12px; color: #ccc; margin-top: 4px; }
+.subline a { color: #fff; }
+.subscope { font-size: 12.5px; color: #ddd; margin-top: 6px; white-space: pre-wrap; line-height: 1.4; }
+.subnotes { font-size: 11.5px; color: #999; margin-top: 5px; white-space: pre-wrap; }
+.sst { font-size: 10px; font-weight: 800; letter-spacing: .06em; padding: 4px 9px; border-radius: 99px; white-space: nowrap; cursor: pointer; border: 1px solid #555; color: #999; flex-shrink: 0; }
+.sst.sched { border-color: #6ca0d8; color: #bcd6f0; }
+.sst.onsite { background: #e0b341; color: #000; border-color: #e0b341; }
+.sst.done { background: #4a7; color: #000; border-color: #4a7; }
 </style>
 </head>
 <body>
@@ -212,6 +228,24 @@ textarea#siteNotes { width: 100%; min-height: 120px; padding: 12px; border: 1px 
   </div>
   <div id="schedList"></div>
   <div class="note">Slide % as work progresses — saves on this phone. Red = start date passed without starting.</div>
+  <div class="phase-h">Subcontractors</div>
+  <div class="toolbar" style="margin:0 0 8px;">
+    <button class="btn sm" onclick="showSubForm()">+ Add Subcontractor</button>
+  </div>
+  <div class="card" id="subFormCard" style="display:none;">
+    <h2 id="subFormTitle">Add Subcontractor</h2>
+    <div class="field"><label>Pick from Contacts</label><select id="subContactPick" onchange="subPickContact(this.value)"></select></div>
+    <div class="field"><label>Company / Name</label><input id="subName"></div>
+    <div class="field"><label>Trade</label><input id="subTrade"></div>
+    <div class="field"><label>Phone</label><input id="subPhone" type="tel" inputmode="tel"></div>
+    <div class="field"><label>Date / Window</label><input id="subDate" placeholder="e.g. 7/7 or 7/7–7/25"></div>
+    <div class="field"><label>Status</label><select id="subStatus"><option value="todo">Not scheduled</option><option value="sched">Scheduled</option><option value="onsite">On site</option><option value="done">Done</option></select></div>
+    <div class="field"><label>Rooms / Areas</label><div class="chips" id="subRoomChips"></div></div>
+    <div class="field"><label>Scope of Work</label><textarea id="subScope" rows="3" placeholder="What they need to do…"></textarea></div>
+    <div class="field"><label>Notes</label><textarea id="subNotes" rows="2"></textarea></div>
+    <div class="toolbar"><button class="btn" onclick="saveSub()" id="subSaveBtn">Save</button><button class="ghost btn" onclick="hideSubForm()">Cancel</button></div>
+  </div>
+  <div id="subList"></div>
 </div>
 
 <div class="pg" id="pg-rooms">
@@ -359,6 +393,7 @@ state.noteWhoFilter = state.noteWhoFilter || 'all';
 state.photoTrade = state.photoTrade || '';
 state.photoRoom = state.photoRoom || '';
 state.fileCat = state.fileCat || '';
+state.subs = Array.isArray(state.subs) ? state.subs : [];
 state.pending = state.pending || 'Most Urgent: Tile selection and placement of tile order, along with delivery of interior doors and baseboards.\nPouring of concrete at the front entrance.\nShipment of remaining lights and tile materials.\nContinued installation of T&G in the soffit of the house and front carport.\nInstallation of framing in the playroom and final decision on playroom door.';
 function save() { localStorage.setItem(LS, JSON.stringify(state)); }
 const TRADES = ['Flooring','Tile','Electrical','Plumbing','HVAC','Low Voltage/AV','Carpentry/Framing','Drywall','Painting','Cabinets/Millwork','Countertops','Finishing/Trim','Glass/Mirrors'];
@@ -684,6 +719,98 @@ function renderContacts() {
 function addContact() { state.contacts.push({ n: '', r: '', p: '' }); state.editCt = state.contacts.length - 1; save(); renderContacts(); }
 renderContacts();
 
+/* ============ subcontractors ============ */
+const SUB_ST_LABEL = { todo:'Not scheduled', sched:'Scheduled', onsite:'On site', done:'Done' };
+const SUB_ST_ORDER = ['todo','sched','onsite','done'];
+let subRoomSel = [], editingSubId = null;
+function buildSubContactPick(){
+  const sel = document.getElementById('subContactPick');
+  let h = '<option value="">— manual entry —</option>';
+  (state.contacts||[]).forEach((c,i)=>{ const nm=(c.n||'(no name)'); h += '<option value="'+i+'">'+esc(nm)+(c.r?' — '+esc(c.r):'')+'</option>'; });
+  sel.innerHTML = h; sel.value='';
+}
+function subPickContact(idx){
+  if(idx===''||idx==null) return;
+  const c=(state.contacts||[])[+idx]; if(!c) return;
+  document.getElementById('subName').value = c.n||'';
+  document.getElementById('subTrade').value = c.r||'';
+  document.getElementById('subPhone').value = c.p||'';
+}
+function renderSubRoomChips(){
+  const box=document.getElementById('subRoomChips'); box.innerHTML='';
+  ROOM_OPTS.forEach(r=>{ const c=document.createElement('span'); c.className='chip room-chip'+(subRoomSel.includes(r)?' on':''); c.textContent=r;
+    c.onclick=()=>{ if(subRoomSel.includes(r)) subRoomSel=subRoomSel.filter(x=>x!==r); else subRoomSel.push(r); renderSubRoomChips(); }; box.appendChild(c); });
+}
+function showSubForm(){
+  editingSubId=null; subRoomSel=[];
+  document.getElementById('subFormTitle').textContent='Add Subcontractor';
+  ['subName','subTrade','subPhone','subDate','subScope','subNotes'].forEach(id=>{ document.getElementById(id).value=''; });
+  document.getElementById('subStatus').value='todo';
+  buildSubContactPick(); renderSubRoomChips();
+  document.getElementById('subFormCard').style.display='';
+  document.getElementById('subFormCard').scrollIntoView({behavior:'smooth',block:'center'});
+}
+function hideSubForm(){ document.getElementById('subFormCard').style.display='none'; editingSubId=null; }
+function saveSub(){
+  const name=document.getElementById('subName').value.trim();
+  const trade=document.getElementById('subTrade').value.trim();
+  if(!name && !trade){ alert('Add a name or trade first.'); return; }
+  const rec={ id: editingSubId||uid(), name:name, trade:trade,
+    phone:document.getElementById('subPhone').value.trim(),
+    date:document.getElementById('subDate').value.trim(),
+    status:document.getElementById('subStatus').value,
+    rooms:subRoomSel.slice(),
+    scope:document.getElementById('subScope').value.trim(),
+    notes:document.getElementById('subNotes').value.trim() };
+  if(editingSubId){ const i=state.subs.findIndex(s=>s.id===editingSubId); if(i>=0) state.subs[i]=rec; }
+  else state.subs.push(rec);
+  save(); hideSubForm(); renderSubs();
+}
+function editSub(id){
+  const s=state.subs.find(x=>x.id===id); if(!s) return;
+  editingSubId=id; subRoomSel=(s.rooms||[]).slice();
+  document.getElementById('subFormTitle').textContent='Edit Subcontractor';
+  buildSubContactPick();
+  document.getElementById('subName').value=s.name||'';
+  document.getElementById('subTrade').value=s.trade||'';
+  document.getElementById('subPhone').value=s.phone||'';
+  document.getElementById('subDate').value=s.date||'';
+  document.getElementById('subStatus').value=s.status||'todo';
+  document.getElementById('subScope').value=s.scope||'';
+  document.getElementById('subNotes').value=s.notes||'';
+  renderSubRoomChips();
+  document.getElementById('subFormCard').style.display='';
+  document.getElementById('subFormCard').scrollIntoView({behavior:'smooth',block:'center'});
+}
+function deleteSub(id){ if(!confirm('Delete this subcontractor?')) return; state.subs=state.subs.filter(s=>s.id!==id); save(); renderSubs(); }
+function cycleSubStatus(id){ const s=state.subs.find(x=>x.id===id); if(!s) return; const i=SUB_ST_ORDER.indexOf(s.status||'todo'); s.status=SUB_ST_ORDER[(i+1)%SUB_ST_ORDER.length]; save(); renderSubs(); }
+function subDateVal(d){ if(!d) return Infinity; const m=/(\d{1,2})\/(\d{1,2})/.exec(d); if(!m) return Infinity; return new Date(2026,(+m[1])-1,+m[2]).getTime(); }
+function renderSubs(){
+  const box=document.getElementById('subList'); if(!box) return;
+  const list=(state.subs||[]).slice().sort((a,b)=> subDateVal(a.date)-subDateVal(b.date));
+  if(!list.length){ box.innerHTML='<div class="note" style="margin:2px 0 10px;">No subs yet. Tap “+ Add Subcontractor”. Pick from Contacts to auto-fill name &amp; number.</div>'; return; }
+  box.innerHTML='';
+  list.forEach(s=>{
+    const st=s.status||'todo';
+    const div=document.createElement('div'); div.className='sub st-'+st;
+    const roomChips=(s.rooms||[]).map(r=>'<span class="chip ro room-chip">'+esc(r)+'</span>').join('');
+    const phone=(s.phone||'').trim();
+    const tel=phone?'<a href="tel:'+phone.replace(/[^0-9+]/g,'')+'">'+esc(phone)+'</a>':'';
+    const dateline=[esc(s.date||''), tel].filter(Boolean).join(' &nbsp;•&nbsp; ');
+    div.innerHTML=
+      '<div class="subtop"><div><span class="subname">'+esc(s.name||'(no name)')+'</span>'+(s.trade?' <span class="subtrade">'+esc(s.trade)+'</span>':'')+'</div>'+
+        '<span class="sst '+st+'" title="tap to advance status" onclick="cycleSubStatus(\''+s.id+'\')">'+SUB_ST_LABEL[st]+'</span></div>'+
+      (dateline?'<div class="subline">'+dateline+'</div>':'')+
+      (s.scope?'<div class="subscope">'+esc(s.scope)+'</div>':'')+
+      (roomChips?'<div class="chips" style="margin-top:6px;">'+roomChips+'</div>':'')+
+      (s.notes?'<div class="subnotes">'+esc(s.notes)+'</div>':'')+
+      '<div class="toolbar" style="margin-top:8px;"><button class="ghost btn sm" onclick="editSub(\''+s.id+'\')">Edit</button> '+
+        '<button class="danger btn sm" onclick="deleteSub(\''+s.id+'\')">Del</button></div>';
+    box.appendChild(div);
+  });
+}
+renderSubs();
+
 document.getElementById('rDate').value = new Date().toISOString().slice(0, 10);
 document.getElementById('rPending').value = state.pending || '';
 document.getElementById('rPending').addEventListener('input', e => { state.pending = e.target.value; save(); });
@@ -895,6 +1022,7 @@ function mergeState(ex, inc){
   for(const k in inc){
     const iv = inc[k];
     if(k==='walkNotes'){ out.walkNotes = mergeByKeyIncoming(ex.walkNotes, iv, o=> (o && o.id) ? o.id : JSON.stringify(o)); }
+    else if(k==='subs'){ out.subs = mergeByKeyIncoming(ex.subs, iv, o=> (o && o.id) ? o.id : JSON.stringify(o)); }
     else if(k==='items'){ out.items = mergeByKeyIncoming(ex.items, iv, o=> (o && o.t) ? o.t : JSON.stringify(o)); }
     else if(k==='contacts'){ out.contacts = mergeByKeyIncoming(ex.contacts, iv, o=> ((o&&o.n)||'')+'|'+((o&&o.r)||'')); }
     else if(iv && typeof iv==='object' && !Array.isArray(iv)){ out[k] = Object.assign({}, ex[k]||{}, iv); }
