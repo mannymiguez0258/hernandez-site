@@ -196,6 +196,7 @@ textarea#siteNotes { width: 100%; min-height: 120px; padding: 12px; border: 1px 
 .out.flash { animation: fadeUp .35s ease; }
 /* ============ THEME 2.0 — soft, rounded, accent colors ============ */
 :root { --bg:#0b0b0e; --card:#15151b; --card2:#0f0f14; --line:#2a2a33; --line2:#3c3c47; --txt:#f2f2f5; --mut:#9a9aa6; --dim:#5b5b66; --acc:#ff8a2a; --accTxt:#181104; --ok:#3ecf8e; --warn:#e0b341; --bad:#ff5c5c; --r:18px; --rs:12px; }
+body[data-theme=dark] { --bg:#000; --card:#0d0d0d; --card2:#060606; --line:#2e2e2e; --line2:#454545; --acc:#fff; --accTxt:#000; --mut:#999; --dim:#555; }
 body[data-theme=steel] { --acc:#5aa7ff; --accTxt:#0a1424; }
 body[data-theme=crew]  { --acc:#3ecf8e; --accTxt:#071510; }
 body[data-theme=paper] { color-scheme: light; --bg:#f1f1f4; --card:#ffffff; --card2:#f6f6f9; --line:#dfdfe6; --line2:#c8c8d2; --txt:#17171c; --mut:#5f5f6b; --dim:#9a9aa4; --acc:#e56b00; --accTxt:#fff; --ok:#189a63; --warn:#a97b0a; --bad:#d33; }
@@ -329,6 +330,18 @@ body[data-theme=paper] .tlogo { filter: invert(1); }
 .bf-d { font-family: 'Michroma', sans-serif; font-size: 10px; color: var(--mut); margin-top: 10px; letter-spacing: .12em; }
 .wxrow { display: flex; gap: 8px; align-items: stretch; }
 .wxrow input { flex: 1; }
+/* room status board */
+.rooms-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.rcard { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+.rcard.st-done { border-color: color-mix(in srgb, var(--ok) 45%, var(--line)); background: color-mix(in srgb, var(--ok) 8%, var(--card)); }
+.rcard.st-ready { border-color: color-mix(in srgb, var(--acc) 45%, var(--line)); }
+.rc-n { font-weight: 800; font-size: 14px; color: var(--txt); line-height: 1.25; }
+.rc-f { font-size: 10.5px; color: var(--mut); line-height: 1.35; min-height: 28px; }
+.rc-st { border: 1px solid var(--line2); background: var(--card2); color: var(--mut); font-size: 11px; font-weight: 800; padding: 9px 6px; border-radius: 10px; cursor: pointer; }
+.rc-st.st-prog { color: var(--warn); border-color: color-mix(in srgb, var(--warn) 45%, var(--line2)); }
+.rc-st.st-ready { color: var(--acc); border-color: color-mix(in srgb, var(--acc) 50%, var(--line2)); }
+.rc-st.st-done { background: var(--ok); border-color: var(--ok); color: #fff; }
+.rc-p { border: 0; background: color-mix(in srgb, var(--bad) 14%, var(--card)); color: var(--bad); font-size: 11px; font-weight: 800; padding: 8px 6px; border-radius: 10px; cursor: pointer; }
 </style>
 </head>
 <body>
@@ -360,6 +373,7 @@ body[data-theme=paper] .tlogo { filter: invert(1); }
   <div class="dsec">Theme</div>
   <div class="themes">
     <button class="tsw" data-t="ember" onclick="setTheme('ember')" style="--s:#ff8a2a">Ember</button>
+    <button class="tsw" data-t="dark" onclick="setTheme('dark')" style="--s:#fff">Dark</button>
     <button class="tsw" data-t="steel" onclick="setTheme('steel')" style="--s:#5aa7ff">Steel</button>
     <button class="tsw" data-t="crew" onclick="setTheme('crew')" style="--s:#3ecf8e">Crew</button>
     <button class="tsw" data-t="paper" onclick="setTheme('paper')" style="--s:#e56b00">Light</button>
@@ -436,16 +450,12 @@ body[data-theme=paper] .tlogo { filter: invert(1); }
 
 <div class="pg" id="pg-rooms">
   <div class="statrow">
-    <div class="scard"><div class="n" id="rmOverall">0%</div><div class="l">overall</div></div>
-    <div class="scard"><div class="n" id="rmComplete">0/0</div><div class="l">rooms done</div></div>
-    <div class="scard"><div class="n" id="rmTracked">0</div><div class="l">trades tracked</div></div>
+    <div class="scard"><div class="n" id="rsDone">0/0</div><div class="l">rooms done</div></div>
+    <div class="scard"><div class="n" id="rsProg">0</div><div class="l">in progress</div></div>
+    <div class="scard"><div class="n" id="rsPunch">0</div><div class="l">open punch</div></div>
   </div>
-  <div class="fbar">
-    <span class="fl">View</span>
-    <select id="roomFilter" onchange="setRoomFilter(this.value)"></select>
-  </div>
-  <div class="note" style="margin:-4px 0 12px;">Tap a room to set each trade's status. Set trades that don't apply to <b>N/A</b>. Use View to check one trade across every room.</div>
-  <div id="roomList"></div>
+  <div class="note" style="margin:0 0 12px;">One status per room — tap it to move the room forward. A red badge means open punch items; tap it to see them.</div>
+  <div class="rooms-grid" id="roomList"></div>
 </div>
 
 <div class="pg" id="pg-photos">
@@ -706,6 +716,7 @@ function navTo(name) {
   document.querySelectorAll('.ditem').forEach(b => b.classList.toggle('on', b.dataset.pg === name));
   const lbl = document.getElementById('pgName'); if (lbl) lbl.textContent = PAGE_NAMES[name] || '';
   if (name === 'today') renderBrief();
+  if (name === 'rooms') renderRooms();
   closeMenu(); window.scrollTo(0, 0);
 }
 function openMenu() { document.getElementById('drawer').classList.add('on'); document.getElementById('scrim').classList.add('on'); }
@@ -909,68 +920,50 @@ const ROOMS = [
  ['Mudroom','Tile','tile'],
 ];
 const ROOM_NAMES = ROOMS.map(r => r[0]);
-const ST_LABEL = { na:'— N/A', todo:'Not started', prog:'In progress', done:'Done ✓' };
-(function migrateRooms(){
-  ROOMS.forEach(([name, finish, kind]) => {
-    if (!state.roomTrades[name]) state.roomTrades[name] = {};
-    const legacy = state.rooms[name];
-    const primary = kind === 'tile' ? 'Tile' : 'Flooring';
-    if (legacy && state.roomTrades[name][primary] === undefined) {
-      state.roomTrades[name][primary] = (legacy === 'done' || legacy === 'prog' || legacy === 'todo') ? legacy : 'todo';
-    }
+const RS_ORDER = ['todo','prog','ready','done'];
+const RS_LABEL = { todo:'Not started', prog:'In progress', ready:'Ready for punch', done:'Done ✓' };
+state.roomSimple = state.roomSimple || null;
+(function migrateRoomSimple(){
+  if (state.roomSimple) return;
+  state.roomSimple = {};
+  ROOMS.forEach(([name]) => {
+    const tr = state.roomTrades[name] || {};
+    const tracked = TRADES.filter(t => tr[t] && tr[t] !== 'na');
+    const doneN = tracked.filter(t => tr[t] === 'done').length;
+    state.roomSimple[name] = (tracked.length && doneN === tracked.length) ? 'done'
+      : (tracked.some(t2 => tr[t2] === 'prog' || tr[t2] === 'done') ? 'prog' : 'todo');
   });
   save();
 })();
-function getTS(room, trade){ const r = state.roomTrades[room] || {}; return r[trade] || 'na'; }
-function setTradeStatus(room, trade, st){ if(!state.roomTrades[room]) state.roomTrades[room]={}; state.roomTrades[room][trade]=st; save(); renderRooms(); }
-function setRoomFilter(v){ state.roomFilter = v; save(); renderRooms(); }
-function toggleRoom(name){ state.roomOpen[name] = !state.roomOpen[name]; save(); renderRooms(); }
-function tsSelect(room, trade){
-  const cur = getTS(room, trade);
-  let h = '<select onchange="setTradeStatus(\'' + jsq(room) + '\',\'' + jsq(trade) + '\',this.value)">';
-  ['na','todo','prog','done'].forEach(s => { h += '<option value="' + s + '"' + (cur===s?' selected':'') + '>' + ST_LABEL[s] + '</option>'; });
-  return h + '</select>';
+function cycleRoom(name){
+  const cur = state.roomSimple[name] || 'todo';
+  state.roomSimple[name] = RS_ORDER[(RS_ORDER.indexOf(cur)+1) % RS_ORDER.length];
+  save(); renderRooms();
+  if (state.roomSimple[name] === 'done') toast(name + ' done ✓');
 }
-function renderRooms() {
-  const fsel = document.getElementById('roomFilter');
-  if (!fsel.dataset.built) { let h = '<option value="">All rooms (expand each)</option>'; TRADES.forEach(t => h += '<option value="' + t + '">Just ' + t + '</option>'); fsel.innerHTML = h; fsel.dataset.built = '1'; }
-  fsel.value = state.roomFilter;
+function roomPunch(name){
+  state.punchRoom = name; state.punchFilter = 'open'; save();
+  renderPunch(); navTo('punch');
+}
+function renderRooms(){
   const box = document.getElementById('roomList');
   box.innerHTML = '';
-  let trackedTotal = 0, doneTotal = 0, roomsComplete = 0, roomsWithTracked = 0;
-  ROOMS.forEach(([name, finish, kind]) => {
-    const tr = state.roomTrades[name] || {};
-    const tracked = TRADES.filter(t => tr[t] && tr[t] !== 'na');
-    const doneCount = tracked.filter(t => tr[t] === 'done').length;
-    trackedTotal += tracked.length; doneTotal += doneCount;
-    if (tracked.length) { roomsWithTracked++; if (doneCount === tracked.length) roomsComplete++; }
-    if (state.roomFilter) {
-      const st = getTS(name, state.roomFilter);
-      const div = document.createElement('div'); div.className = 'rm';
-      div.innerHTML = '<div class="rm-head" style="cursor:default;"><span class="sdot ' + st + '"></span>' +
-        '<div style="flex:1;"><div class="rn">' + esc(name) + '</div></div>' +
-        '<div style="flex:0 0 132px;">' + tsSelect(name, state.roomFilter) + '</div></div>';
-      box.appendChild(div); return;
-    }
-    const open = !!state.roomOpen[name];
-    const allDone = tracked.length && doneCount === tracked.length;
-    const div = document.createElement('div');
-    div.className = 'rm' + (open ? ' open' : '') + (allDone ? ' alldone' : '');
-    let body = '';
-    TRADES.forEach(t => {
-      const st = getTS(name, t);
-      body += '<div class="trow"><span class="sdot ' + st + '"></span><span class="tn2">' + t + '</span>' + tsSelect(name, t) + '</div>';
-    });
-    div.innerHTML = '<div class="rm-head" onclick="toggleRoom(\'' + jsq(name) + '\')">' +
-        '<span class="chev">▶</span>' +
-        '<div style="flex:1;"><div class="rn">' + esc(name) + '</div><div class="rf">' + esc(finish) + '</div></div>' +
-        '<span class="rc">' + (tracked.length ? doneCount + '/' + tracked.length : 'set up') + '</span></div>' +
-      '<div class="rm-body">' + body + '</div>';
+  let done = 0, prog = 0, punchTotal = 0;
+  ROOMS.forEach(([name, finish]) => {
+    const st = state.roomSimple[name] || 'todo';
+    if (st === 'done') done++; else if (st === 'prog' || st === 'ready') prog++;
+    const openP = state.punch.filter(p => !p.done && p.room === name).length;
+    punchTotal += openP;
+    const div = document.createElement('div'); div.className = 'rcard st-' + st;
+    div.innerHTML = '<div class="rc-n">' + esc(name) + '</div>' +
+      '<div class="rc-f">' + esc(finish) + '</div>' +
+      '<button class="rc-st st-' + st + '" onclick="cycleRoom(\'' + jsq(name) + '\')">' + RS_LABEL[st] + '</button>' +
+      (openP ? '<button class="rc-p" onclick="roomPunch(\'' + jsq(name) + '\')">' + openP + ' punch open</button>' : '');
     box.appendChild(div);
   });
-  document.getElementById('rmOverall').textContent = trackedTotal ? Math.round(100 * doneTotal / trackedTotal) + '%' : '—';
-  document.getElementById('rmComplete').textContent = roomsComplete + '/' + (roomsWithTracked || ROOMS.length);
-  document.getElementById('rmTracked').textContent = trackedTotal;
+  document.getElementById('rsDone').textContent = done + '/' + ROOMS.length;
+  document.getElementById('rsProg').textContent = prog;
+  document.getElementById('rsPunch').textContent = punchTotal;
 }
 renderRooms();
 
