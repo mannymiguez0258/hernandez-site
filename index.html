@@ -15,8 +15,8 @@
 <style>
 :root { color-scheme: dark; }
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-html { height: 100%; }
-body { font-family: -apple-system, "Segoe UI", Roboto, sans-serif; background: #000; color: #f2f2f2; min-height: 100%; overscroll-behavior-y: none; -webkit-overflow-scrolling: touch; }
+html, body { height: 100%; }
+body { font-family: -apple-system, "Segoe UI", Roboto, sans-serif; background: #000; color: #f2f2f2; padding-bottom: calc(74px + env(safe-area-inset-bottom)); }
 .mch { font-family: 'Michroma', sans-serif; }
 .top { background: #000; border-bottom: 1px solid #333; padding: calc(12px + env(safe-area-inset-top)) 16px 12px; position: sticky; top: 0; z-index: 10; }
 .top .t1 { display: flex; justify-content: space-between; align-items: center; }
@@ -24,18 +24,18 @@ body { font-family: -apple-system, "Segoe UI", Roboto, sans-serif; background: #
 .top .bar { background: #222; height: 6px; overflow: hidden; margin-top: 10px; }
 .top .fill { background: #fff; height: 100%; transition: width .3s; }
 .top .sub { font-family: 'Michroma', sans-serif; font-size: 8.5px; letter-spacing: .14em; color: #999; margin-top: 6px; display: flex; justify-content: space-between; text-transform: uppercase; }
-.wrap { padding: 12px; padding-bottom: calc(84px + env(safe-area-inset-bottom)); }
+.wrap { padding: 12px; }
 .card { background: #0d0d0d; border: 1px solid #2e2e2e; padding: 15px; margin-bottom: 12px; }
 .card h2 { font-family: 'Michroma', sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: .18em; color: #fff; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #fff; padding-bottom: 9px; }
 .badge { font-family: -apple-system, sans-serif; font-size: 10px; border: 1px solid #555; color: #bbb; border-radius: 99px; padding: 2px 10px; font-weight: 600; letter-spacing: .05em; }
 .pg { display: none; }
 .pg.on { display: block; }
 .nav { position: fixed; bottom: 0; left: 0; right: 0; background: #000; border-top: 1px solid #333; display: flex; z-index: 20; padding-bottom: env(safe-area-inset-bottom); }
-.nav button { flex: 1; min-width: 0; background: none; border: 0; padding: 8px 1px 6px; font-family: 'Michroma', sans-serif; font-size: 7px; letter-spacing: .03em; color: #777; cursor: pointer; text-transform: uppercase; }
-.nav button .ic { display: block; font-size: 17px; margin-bottom: 2px; filter: grayscale(1); opacity: .55; }
+.nav button { flex: 1; background: none; border: 0; padding: 9px 2px 7px; font-family: 'Michroma', sans-serif; font-size: 8px; letter-spacing: .08em; color: #777; cursor: pointer; text-transform: uppercase; }
+.nav button .ic { display: block; font-size: 20px; margin-bottom: 3px; filter: grayscale(1); opacity: .55; }
 .nav button.on { color: #fff; }
 .nav button.on .ic { opacity: 1; }
-.nav button.on::after { content: ""; display: block; width: 16px; height: 2px; background: #fff; margin: 3px auto 0; }
+.nav button.on::after { content: ""; display: block; width: 26px; height: 2px; background: #fff; margin: 3px auto 0; }
 .item { display: flex; gap: 10px; align-items: flex-start; padding: 10px 2px; border-bottom: 1px solid #222; }
 .item input[type=checkbox] { margin-top: 3px; width: 21px; height: 21px; accent-color: #fff; flex-shrink: 0; }
 .item .txt { font-size: 14px; line-height: 1.4; flex: 1; color: #e8e8e8; }
@@ -55,23 +55,23 @@ button.danger { background: #000; color: #f99; border: 1px solid #633; }
 .note { font-size: 11px; color: #777; margin-top: 10px; line-height: 1.4; }
 .week { font-size: 14px; line-height: 1.6; color: #e8e8e8; }
 .week b { color: #fff; }
-.task { border: 1px solid #2e2e2e; border-left: 3px solid #444; padding: 8px 10px; margin-bottom: 6px; background: #0d0d0d; }
+.task { border: 1px solid #2e2e2e; border-left: 3px solid #444; padding: 12px; margin-bottom: 10px; background: #0d0d0d; }
 .task.risk { border-left-color: #fff; background: #161010; }
 .task.warn { border-left-color: #999; background: #14120c; }
 .task.done { border-left-color: #4a7; background: #0c140e; }
-.task .tn { font-weight: 700; font-size: 13px; color: #fff; }
+.task .tn { font-weight: 700; font-size: 14px; color: #fff; }
 .task.done .tn { text-decoration: line-through; color: #6a8a74; }
-.task .tw { font-size: 11px; color: #999; margin-top: 1px; }
-.task .td { font-size: 10px; font-family: 'Michroma', sans-serif; color: #ccc; margin-top: 3px; letter-spacing: .05em; }
-.task .tnote { font-size: 10.5px; color: #888; margin-top: 2px; }
+.task .tw { font-size: 12px; color: #999; margin-top: 2px; }
+.task .td { font-size: 11px; font-family: 'Michroma', sans-serif; color: #ccc; margin-top: 4px; letter-spacing: .06em; }
+.task .tnote { font-size: 11px; color: #888; margin-top: 3px; }
 .task .late { color: #ff8484 !important; }
-.pctrow { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
-.pctrow input[type=range] { flex: 1; accent-color: #fff; height: 22px; }
+.pctrow { display: flex; align-items: center; gap: 10px; margin-top: 9px; }
+.pctrow input[type=range] { flex: 1; accent-color: #fff; height: 30px; }
 .pctrow .pv { font-family: 'Michroma', sans-serif; font-size: 12px; width: 48px; text-align: right; color: #fff; }
-.phase-h { font-family: 'Michroma', sans-serif; font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: #fff; border-bottom: 1px solid #fff; padding: 9px 0 5px; margin: 6px 0 8px; }
-.statrow { display: flex; gap: 6px; margin-bottom: 8px; }
-.scard { flex: 1; background: #0d0d0d; border: 1px solid #2e2e2e; padding: 7px 3px; text-align: center; }
-.scard .n { font-family: 'Michroma', sans-serif; font-size: 13px; color: #fff; }
+.phase-h { font-family: 'Michroma', sans-serif; font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: #fff; border-bottom: 1px solid #fff; padding: 14px 0 8px; margin: 10px 0 10px; }
+.statrow { display: flex; gap: 8px; margin-bottom: 12px; }
+.scard { flex: 1; background: #0d0d0d; border: 1px solid #2e2e2e; padding: 10px 4px; text-align: center; }
+.scard .n { font-family: 'Michroma', sans-serif; font-size: 14px; color: #fff; }
 .scard .l { font-size: 9px; color: #888; margin-top: 3px; text-transform: uppercase; letter-spacing: .06em; }
 .room { border: 1px solid #2e2e2e; border-left: 3px solid #444; padding: 12px; margin-bottom: 8px; background: #0d0d0d; display: flex; justify-content: space-between; gap: 10px; align-items: center; }
 .room.st-done { border-left-color: #4a7; background: #0c140e; }
@@ -82,9 +82,7 @@ button.danger { background: #000; color: #f99; border: 1px solid #633; }
 .field { margin-bottom: 12px; }
 .field label { display: block; font-family: 'Michroma', sans-serif; font-size: 9px; letter-spacing: .16em; color: #aaa; margin-bottom: 6px; text-transform: uppercase; }
 .field input, .field textarea { width: 100%; padding: 11px 12px; border: 1px solid #444; background: #000; color: #fff; font-size: 15px; font-family: -apple-system, sans-serif; }
-input[type=date] { -webkit-appearance: none; appearance: none; text-align: left; }
 .field textarea { resize: vertical; min-height: 64px; }
-#nBody { min-height: 168px; resize: vertical; }
 .mp-row { display: flex; gap: 8px; margin-bottom: 8px; }
 .mp-row input.role { flex: 2; } .mp-row input.cnt { flex: 0 0 64px; }
 .sec-block { background: #0a0a0a; border: 1px solid #2e2e2e; padding: 10px; margin-bottom: 8px; }
@@ -103,77 +101,6 @@ input[type=date] { -webkit-appearance: none; appearance: none; text-align: left;
 .la-date { font-family: 'Michroma', sans-serif; font-size: 10px; color: #fff; white-space: nowrap; width: 86px; }
 .la-task { flex: 1; line-height: 1.35; color: #e8e8e8; }
 textarea#siteNotes { width: 100%; min-height: 120px; padding: 12px; border: 1px solid #444; background: #000; color: #fff; font-size: 15px; font-family: -apple-system, sans-serif; }
-/* ---- filter bar ---- */
-.fbar { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 12px; }
-.fbar select { border: 1px solid #444; background: #000; color: #fff; padding: 9px 8px; font-size: 13px; }
-.fbar .fl { font-family: 'Michroma', sans-serif; font-size: 8.5px; letter-spacing: .14em; color: #999; text-transform: uppercase; }
-/* ---- rooms (per-trade, collapsible) ---- */
-.rm { border: 1px solid #2e2e2e; border-left: 3px solid #444; background: #0d0d0d; margin-bottom: 8px; }
-.rm.alldone { border-left-color: #4a7; background: #0c140e; }
-.rm-head { display: flex; align-items: center; gap: 10px; padding: 12px; cursor: pointer; }
-.rm-head .rn { font-weight: 700; font-size: 14px; color: #fff; }
-.rm-head .rf { font-size: 11px; color: #888; margin-top: 2px; }
-.rm-head .rc { font-family: 'Michroma', sans-serif; font-size: 11px; color: #fff; white-space: nowrap; }
-.rm-head .chev { color: #888; font-size: 12px; transition: transform .15s; }
-.rm.open .chev { transform: rotate(90deg); }
-.rm-body { display: none; padding: 0 12px 10px; }
-.rm.open .rm-body { display: block; }
-.trow { display: flex; align-items: center; gap: 9px; padding: 8px 0; border-top: 1px solid #222; }
-.trow .tn2 { flex: 1; font-size: 13px; color: #e8e8e8; }
-.trow select { border: 1px solid #444; background: #000; color: #fff; padding: 8px 6px; font-size: 13px; flex: 0 0 132px; }
-.sdot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; background: #555; }
-.sdot.prog { background: #bbb; } .sdot.done { background: #4a7; } .sdot.na { background: transparent; border: 1px solid #444; }
-/* ---- photos ---- */
-.pgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
-.pcell { border: 1px solid #2e2e2e; background: #0d0d0d; overflow: hidden; }
-.pcell img.th { width: 100%; height: 120px; object-fit: cover; display: block; background: #000; }
-.pcell .pm { padding: 7px; display: flex; flex-direction: column; gap: 5px; }
-.pcell select, .pcell input { border: 1px solid #444; background: #000; color: #fff; padding: 6px; font-size: 12px; width: 100%; font-family: -apple-system, sans-serif; }
-.prow2 { display: flex; gap: 5px; } .prow2 > * { flex: 1; min-width: 0; }
-.dayh { font-family: 'Michroma', sans-serif; font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: #fff; border-bottom: 1px solid #fff; padding: 14px 0 8px; margin: 6px 0 10px; display: flex; justify-content: space-between; }
-.dayh .c { color: #888; letter-spacing: .05em; }
-.empty { text-align: center; color: #777; font-size: 13px; padding: 30px 10px; line-height: 1.5; }
-.lb { position: fixed; inset: 0; background: rgba(0,0,0,.95); display: none; align-items: center; justify-content: center; flex-direction: column; gap: 12px; z-index: 60; padding: 16px; }
-.lb.on { display: flex; }
-.lb img { max-width: 100%; max-height: 80vh; }
-.lb .cap { color: #ccc; font-size: 13px; text-align: center; }
-.lb .x { position: absolute; top: calc(12px + env(safe-area-inset-top)); right: 16px; background: #fff; color: #000; padding: 7px 14px; font-weight: 700; font-size: 12px; }
-/* ---- files ---- */
-.frow { display: flex; gap: 10px; align-items: center; border: 1px solid #2e2e2e; background: #0d0d0d; padding: 11px; margin-bottom: 8px; }
-.frow .fi { width: 40px; height: 40px; flex-shrink: 0; border: 1px solid #444; display: flex; align-items: center; justify-content: center; font-family: 'Michroma', sans-serif; font-size: 9px; color: #fff; }
-.frow .finfo { flex: 1; min-width: 0; }
-.frow .fn { font-size: 14px; font-weight: 700; }
-.frow .fn a { color: #fff; text-decoration: underline; word-break: break-word; }
-.frow .fs { font-size: 11px; color: #888; margin-top: 2px; }
-.frow select { border: 1px solid #444; background: #000; color: #fff; padding: 7px; font-size: 12px; flex-shrink: 0; }
-/* ---- notes ---- */
-.ncard { border: 1px solid #2e2e2e; border-left: 3px solid #444; background: #0d0d0d; padding: 12px; margin-bottom: 9px; }
-.ncard .nctop { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-.ncard .nd { font-family: 'Michroma', sans-serif; font-size: 10px; color: #fff; letter-spacing: .08em; }
-.ncard .nt { font-size: 15px; font-weight: 700; color: #fff; margin: 6px 0 4px; }
-.ncard .nb { font-size: 13px; line-height: 1.5; color: #ccc; white-space: pre-wrap; }
-.chips { display: flex; gap: 6px; flex-wrap: wrap; }
-.chip { font-size: 11px; font-weight: 700; border: 1px solid #555; color: #ccc; padding: 6px 12px; border-radius: 99px; background: #000; cursor: pointer; }
-.chip.on { background: #fff; color: #000; border-color: #fff; }
-.chip.ro { cursor: default; }
-.chip.room-chip { border-color: #6b5; color: #cda; }
-.field select { width: 100%; padding: 11px 12px; border: 1px solid #444; background: #000; color: #fff; font-size: 15px; font-family: -apple-system, sans-serif; }
-/* ---- subcontractors ---- */
-.sub { border: 1px solid #2e2e2e; border-left: 3px solid #444; background: #0d0d0d; padding: 10px; margin-bottom: 8px; }
-.sub.st-sched { border-left-color: #6ca0d8; }
-.sub.st-onsite { border-left-color: #e0b341; background: #14120c; }
-.sub.st-done { border-left-color: #4a7; background: #0c140e; }
-.subtop { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
-.subname { font-weight: 700; font-size: 14px; color: #fff; }
-.subtrade { font-size: 11px; color: #999; }
-.subline { font-size: 12px; color: #ccc; margin-top: 4px; }
-.subline a { color: #fff; }
-.subscope { font-size: 12.5px; color: #ddd; margin-top: 6px; white-space: pre-wrap; line-height: 1.4; }
-.subnotes { font-size: 11.5px; color: #999; margin-top: 5px; white-space: pre-wrap; }
-.sst { font-size: 10px; font-weight: 800; letter-spacing: .06em; padding: 4px 9px; border-radius: 99px; white-space: nowrap; cursor: pointer; border: 1px solid #555; color: #999; flex-shrink: 0; }
-.sst.sched { border-color: #6ca0d8; color: #bcd6f0; }
-.sst.onsite { background: #e0b341; color: #000; border-color: #e0b341; }
-.sst.done { background: #4a7; color: #000; border-color: #4a7; }
 </style>
 </head>
 <body>
@@ -229,99 +156,15 @@ textarea#siteNotes { width: 100%; min-height: 120px; padding: 12px; border: 1px 
   </div>
   <div id="schedList"></div>
   <div class="note">Slide % as work progresses — saves on this phone. Red = start date passed without starting.</div>
-  <div class="phase-h">Subcontractors</div>
-  <div class="toolbar" style="margin:0 0 8px;">
-    <button class="btn sm" onclick="showSubForm()">+ Add Subcontractor</button>
-  </div>
-  <div class="card" id="subFormCard" style="display:none;">
-    <h2 id="subFormTitle">Add Subcontractor</h2>
-    <div class="field"><label>Pick from Contacts</label><select id="subContactPick" onchange="subPickContact(this.value)"></select></div>
-    <div class="field"><label>Company / Name</label><input id="subName"></div>
-    <div class="field"><label>Trade</label><input id="subTrade"></div>
-    <div class="field"><label>Phone</label><input id="subPhone" type="tel" inputmode="tel"></div>
-    <div class="field"><label>Date / Window</label><input id="subDate" placeholder="e.g. 7/7 or 7/7–7/25"></div>
-    <div class="field"><label>Status</label><select id="subStatus"><option value="todo">Not scheduled</option><option value="sched">Scheduled</option><option value="onsite">On site</option><option value="done">Done</option></select></div>
-    <div class="field"><label>Rooms / Areas</label><div class="chips" id="subRoomChips"></div></div>
-    <div class="field"><label>Scope of Work</label><textarea id="subScope" rows="3" placeholder="What they need to do…"></textarea></div>
-    <div class="field"><label>Notes</label><textarea id="subNotes" rows="2"></textarea></div>
-    <div class="toolbar"><button class="btn" onclick="saveSub()" id="subSaveBtn">Save</button><button class="ghost btn" onclick="hideSubForm()">Cancel</button></div>
-  </div>
-  <div id="subList"></div>
 </div>
 
 <div class="pg" id="pg-rooms">
   <div class="statrow">
-    <div class="scard"><div class="n" id="rmOverall">0%</div><div class="l">overall</div></div>
-    <div class="scard"><div class="n" id="rmComplete">0/0</div><div class="l">rooms done</div></div>
-    <div class="scard"><div class="n" id="rmTracked">0</div><div class="l">trades tracked</div></div>
+    <div class="scard"><div class="n" id="rmWood">0%</div><div class="l">wood</div></div>
+    <div class="scard"><div class="n" id="rmTile">0%</div><div class="l">tile</div></div>
+    <div class="scard"><div class="n" id="rmAll">0/0</div><div class="l">rooms done</div></div>
   </div>
-  <div class="fbar">
-    <span class="fl">View</span>
-    <select id="roomFilter" onchange="setRoomFilter(this.value)"></select>
-  </div>
-  <div class="note" style="margin:-4px 0 12px;">Tap a room to set each trade's status. Set trades that don't apply to <b>N/A</b>. Use View to check one trade across every room.</div>
   <div id="roomList"></div>
-</div>
-
-<div class="pg" id="pg-photos">
-  <div class="fbar">
-    <button class="btn sm" onclick="document.getElementById('photoInput').click()">+ Add Photos</button>
-    <input type="file" id="photoInput" accept="image/*" multiple style="display:none" onchange="uploadPhotos(this.files); this.value='';">
-    <span class="fl">Trade</span>
-    <select id="photoTradeFilter" onchange="setPhotoFilter('trade', this.value)"></select>
-    <span class="fl">Room</span>
-    <select id="photoRoomFilter" onchange="setPhotoFilter('room', this.value)"></select>
-  </div>
-  <div class="note" style="margin:-4px 0 12px;">Add Photos lets you take a picture or pick from your library. Photos group by date &mdash; tag each by trade &amp; room. Tap a photo to view it large. <b>Photos stay on this phone.</b></div>
-  <div id="photoGallery"><div class="empty">Loading&hellip;</div></div>
-</div>
-
-<div class="pg" id="pg-notes">
-  <div class="card">
-    <h2 id="noteFormTitle">New Walkthrough Note</h2>
-    <div class="field"><label>Date</label><input type="date" id="nDate"></div>
-    <div class="field"><label>Walkthrough with</label><div class="chips" id="nWhoChips"></div></div>
-    <div class="field"><label>Room(s) / Area</label><div class="chips" id="nRoomChips"></div></div>
-    <div class="field"><label>Title / Topic</label><input id="nTitle" placeholder="e.g. Master bath tile layout"></div>
-    <div class="field"><label>Notes</label><textarea id="nBody" rows="7" placeholder="What was discussed or decided&hellip;"></textarea></div>
-    <div class="toolbar">
-      <button class="btn" onclick="saveNote()" id="noteSaveBtn">Save Note</button>
-      <button class="ghost btn" onclick="clearNoteForm()" id="noteCancelBtn" style="display:none;">Cancel</button>
-    </div>
-  </div>
-  <div class="fbar">
-    <span class="fl">Show</span>
-    <select id="noteWhoFilter" onchange="setNoteFilter(this.value)">
-      <option value="all">All notes</option>
-      <option value="Client">With Client</option>
-      <option value="Interior Designer">With Designer</option>
-      <option value="Contractor">With Contractor</option>
-      <option value="Other">Other</option>
-    </select>
-    <span class="badge" id="noteCount">0</span>
-  </div>
-  <div id="noteList"><div class="empty">No notes yet. Add one above.</div></div>
-</div>
-
-<div class="pg" id="pg-files">
-  <div class="card">
-    <h2>Backup &amp; Restore <span class="badge">all tabs</span></h2>
-    <div class="note" style="margin:0 0 10px;">Export saves your notes, checklist, schedule %, room statuses and contacts to a file you can send to another phone. Import merges a backup back in &mdash; it won't erase what's already here. (Photos &amp; stored files aren't included.)</div>
-    <div class="toolbar">
-      <button class="btn" onclick="exportBackup()">Export Backup</button>
-      <button class="ghost btn" onclick="document.getElementById('importInput').click()">Import Backup</button>
-      <input type="file" id="importInput" accept="application/json,.json" style="display:none" onchange="importBackup(this.files); this.value='';">
-    </div>
-    <div id="backupMsg" class="note" style="margin-top:8px;"></div>
-  </div>
-  <div class="fbar">
-    <button class="btn sm" onclick="document.getElementById('fileInput').click()">+ Add Files</button>
-    <input type="file" id="fileInput" multiple style="display:none" onchange="uploadFiles(this.files); this.value='';">
-    <span class="fl">Category</span>
-    <select id="fileCatFilter" onchange="setFileFilter(this.value)"></select>
-  </div>
-  <div class="note" style="margin:-4px 0 12px;">Store plans, permits, spec sheets, quotes &mdash; any file. Tap a name to open it. <b>Files stay on this phone.</b></div>
-  <div id="fileList"><div class="empty">Loading&hellip;</div></div>
 </div>
 
 <div class="pg" id="pg-report">
@@ -360,20 +203,12 @@ No safety incidents reported.</textarea>
 </div>
 
 <div class="mch" style="text-align:center;padding:8px 0 16px;font-size:8px;letter-spacing:.3em;color:#666;">J CONSTRUCTION LLC &nbsp;•&nbsp; MIAMI FL</div>
-<div class="lb" id="lightbox" onclick="closeLightbox()">
-  <div class="x">Close &#10005;</div>
-  <img id="lbImg" src="" alt="">
-  <div class="cap" id="lbCap"></div>
-</div>
 <div class="nav">
-  <button class="on" data-pg="today" onclick="nav(this)"><span class="ic">&#127968;</span>Today</button>
-  <button data-pg="sched" onclick="nav(this)"><span class="ic">&#128197;</span>Sched</button>
-  <button data-pg="rooms" onclick="nav(this)"><span class="ic">&#128682;</span>Rooms</button>
-  <button data-pg="photos" onclick="nav(this)"><span class="ic">&#128247;</span>Photos</button>
-  <button data-pg="notes" onclick="nav(this)"><span class="ic">&#128221;</span>Notes</button>
-  <button data-pg="files" onclick="nav(this)"><span class="ic">&#128193;</span>Files</button>
-  <button data-pg="report" onclick="nav(this)"><span class="ic">&#128203;</span>Report</button>
-  <button data-pg="contacts" onclick="nav(this)"><span class="ic">&#128222;</span>Calls</button>
+  <button class="on" data-pg="today" onclick="nav(this)"><span class="ic">🏠</span>Today</button>
+  <button data-pg="sched" onclick="nav(this)"><span class="ic">📅</span>Schedule</button>
+  <button data-pg="rooms" onclick="nav(this)"><span class="ic">🚪</span>Rooms</button>
+  <button data-pg="report" onclick="nav(this)"><span class="ic">📝</span>Report</button>
+  <button data-pg="contacts" onclick="nav(this)"><span class="ic">📞</span>Calls</button>
 </div>
 
 <script>
@@ -386,24 +221,8 @@ state.rooms = state.rooms || {};
 state.notes = state.notes || '';
 state.contacts = state.contacts || null;
 state.items = Array.isArray(state.items) ? state.items : null;
-state.roomTrades = state.roomTrades || {};
-state.roomOpen = state.roomOpen || {};
-state.roomFilter = state.roomFilter || '';
-state.walkNotes = Array.isArray(state.walkNotes) ? state.walkNotes : [];
-state.noteWhoFilter = state.noteWhoFilter || 'all';
-state.photoTrade = state.photoTrade || '';
-state.photoRoom = state.photoRoom || '';
-state.fileCat = state.fileCat || '';
-state.subs = Array.isArray(state.subs) ? state.subs : [];
 state.pending = state.pending || 'Most Urgent: Tile selection and placement of tile order, along with delivery of interior doors and baseboards.\nPouring of concrete at the front entrance.\nShipment of remaining lights and tile materials.\nContinued installation of T&G in the soffit of the house and front carport.\nInstallation of framing in the playroom and final decision on playroom door.';
 function save() { localStorage.setItem(LS, JSON.stringify(state)); }
-const TRADES = ['Flooring','Tile','Electrical','Plumbing','HVAC','Low Voltage/AV','Carpentry/Framing','Drywall','Painting','Cabinets/Millwork','Countertops','Finishing/Trim','Glass/Mirrors'];
-const FILE_CATS = ['Plans','Permit','Contract / Proposal','Spec Sheet','Quote / Invoice','Inspection', ...TRADES, 'Other'];
-function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-function jsq(s){ return String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'"); }
-function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
-function todayStr(){ const d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
-function fmtDay(ymd){ if(!ymd||ymd.indexOf('-')<0) return ymd||''; const [y,m,d]=ymd.split('-').map(Number); return new Date(y,m-1,d).toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric'}); }
 
 function nav(btn) {
   document.querySelectorAll('.pg').forEach(p => p.classList.remove('on'));
@@ -604,69 +423,31 @@ const ROOMS = [
  ['Laundry','12×12 tile','tile'],
  ['Mudroom','Tile','tile'],
 ];
-const ROOM_NAMES = ROOMS.map(r => r[0]);
-const ST_LABEL = { na:'— N/A', todo:'Not started', prog:'In progress', done:'Done ✓' };
-(function migrateRooms(){
-  ROOMS.forEach(([name, finish, kind]) => {
-    if (!state.roomTrades[name]) state.roomTrades[name] = {};
-    const legacy = state.rooms[name];
-    const primary = kind === 'tile' ? 'Tile' : 'Flooring';
-    if (legacy && state.roomTrades[name][primary] === undefined) {
-      state.roomTrades[name][primary] = (legacy === 'done' || legacy === 'prog' || legacy === 'todo') ? legacy : 'todo';
-    }
-  });
-  save();
-})();
-function getTS(room, trade){ const r = state.roomTrades[room] || {}; return r[trade] || 'na'; }
-function setTradeStatus(room, trade, st){ if(!state.roomTrades[room]) state.roomTrades[room]={}; state.roomTrades[room][trade]=st; save(); renderRooms(); }
-function setRoomFilter(v){ state.roomFilter = v; save(); renderRooms(); }
-function toggleRoom(name){ state.roomOpen[name] = !state.roomOpen[name]; save(); renderRooms(); }
-function tsSelect(room, trade){
-  const cur = getTS(room, trade);
-  let h = '<select onchange="setTradeStatus(\'' + jsq(room) + '\',\'' + jsq(trade) + '\',this.value)">';
-  ['na','todo','prog','done'].forEach(s => { h += '<option value="' + s + '"' + (cur===s?' selected':'') + '>' + ST_LABEL[s] + '</option>'; });
-  return h + '</select>';
-}
 function renderRooms() {
-  const fsel = document.getElementById('roomFilter');
-  if (!fsel.dataset.built) { let h = '<option value="">All rooms (expand each)</option>'; TRADES.forEach(t => h += '<option value="' + t + '">Just ' + t + '</option>'); fsel.innerHTML = h; fsel.dataset.built = '1'; }
-  fsel.value = state.roomFilter;
   const box = document.getElementById('roomList');
   box.innerHTML = '';
-  let trackedTotal = 0, doneTotal = 0, roomsComplete = 0, roomsWithTracked = 0;
+  let woodDone = 0, woodTot = 0, tileDone = 0, tileTot = 0, allDone = 0;
   ROOMS.forEach(([name, finish, kind]) => {
-    const tr = state.roomTrades[name] || {};
-    const tracked = TRADES.filter(t => tr[t] && tr[t] !== 'na');
-    const doneCount = tracked.filter(t => tr[t] === 'done').length;
-    trackedTotal += tracked.length; doneTotal += doneCount;
-    if (tracked.length) { roomsWithTracked++; if (doneCount === tracked.length) roomsComplete++; }
-    if (state.roomFilter) {
-      const st = getTS(name, state.roomFilter);
-      const div = document.createElement('div'); div.className = 'rm';
-      div.innerHTML = '<div class="rm-head" style="cursor:default;"><span class="sdot ' + st + '"></span>' +
-        '<div style="flex:1;"><div class="rn">' + esc(name) + '</div></div>' +
-        '<div style="flex:0 0 132px;">' + tsSelect(name, state.roomFilter) + '</div></div>';
-      box.appendChild(div); return;
-    }
-    const open = !!state.roomOpen[name];
-    const allDone = tracked.length && doneCount === tracked.length;
+    const st = state.rooms[name] || 'todo';
+    if (kind === 'wood') { woodTot++; if (st === 'done') woodDone++; }
+    else { tileTot++; if (st === 'done') tileDone++; }
+    if (st === 'done') allDone++;
     const div = document.createElement('div');
-    div.className = 'rm' + (open ? ' open' : '') + (allDone ? ' alldone' : '');
-    let body = '';
-    TRADES.forEach(t => {
-      const st = getTS(name, t);
-      body += '<div class="trow"><span class="sdot ' + st + '"></span><span class="tn2">' + t + '</span>' + tsSelect(name, t) + '</div>';
-    });
-    div.innerHTML = '<div class="rm-head" onclick="toggleRoom(\'' + jsq(name) + '\')">' +
-        '<span class="chev">▶</span>' +
-        '<div style="flex:1;"><div class="rn">' + esc(name) + '</div><div class="rf">' + esc(finish) + '</div></div>' +
-        '<span class="rc">' + (tracked.length ? doneCount + '/' + tracked.length : 'set up') + '</span></div>' +
-      '<div class="rm-body">' + body + '</div>';
+    div.className = 'room ' + (st === 'done' ? 'st-done' : st === 'prog' ? 'st-prog' : '');
+    div.innerHTML = '<div><div class="rn">' + name + '</div><div class="rf">' + finish + '</div></div>' +
+      '<select data-room="' + name + '">' +
+      '<option value="todo"' + (st==='todo'?' selected':'') + '>Not started</option>' +
+      '<option value="prog"' + (st==='prog'?' selected':'') + '>In progress</option>' +
+      '<option value="done"' + (st==='done'?' selected':'') + '>Done ✓</option>' +
+      '</select>';
     box.appendChild(div);
   });
-  document.getElementById('rmOverall').textContent = trackedTotal ? Math.round(100 * doneTotal / trackedTotal) + '%' : '—';
-  document.getElementById('rmComplete').textContent = roomsComplete + '/' + (roomsWithTracked || ROOMS.length);
-  document.getElementById('rmTracked').textContent = trackedTotal;
+  document.getElementById('rmWood').textContent = woodTot ? Math.round(100 * woodDone / woodTot) + '%' : '—';
+  document.getElementById('rmTile').textContent = tileTot ? Math.round(100 * tileDone / tileTot) + '%' : '—';
+  document.getElementById('rmAll').textContent = allDone + '/' + ROOMS.length;
+  box.querySelectorAll('select').forEach(sel => {
+    sel.onchange = () => { state.rooms[sel.dataset.room] = sel.value; save(); renderRooms(); };
+  });
 }
 renderRooms();
 
@@ -719,98 +500,6 @@ function renderContacts() {
 }
 function addContact() { state.contacts.push({ n: '', r: '', p: '' }); state.editCt = state.contacts.length - 1; save(); renderContacts(); }
 renderContacts();
-
-/* ============ subcontractors ============ */
-const SUB_ST_LABEL = { todo:'Not scheduled', sched:'Scheduled', onsite:'On site', done:'Done' };
-const SUB_ST_ORDER = ['todo','sched','onsite','done'];
-let subRoomSel = [], editingSubId = null;
-function buildSubContactPick(){
-  const sel = document.getElementById('subContactPick');
-  let h = '<option value="">— manual entry —</option>';
-  (state.contacts||[]).forEach((c,i)=>{ const nm=(c.n||'(no name)'); h += '<option value="'+i+'">'+esc(nm)+(c.r?' — '+esc(c.r):'')+'</option>'; });
-  sel.innerHTML = h; sel.value='';
-}
-function subPickContact(idx){
-  if(idx===''||idx==null) return;
-  const c=(state.contacts||[])[+idx]; if(!c) return;
-  document.getElementById('subName').value = c.n||'';
-  document.getElementById('subTrade').value = c.r||'';
-  document.getElementById('subPhone').value = c.p||'';
-}
-function renderSubRoomChips(){
-  const box=document.getElementById('subRoomChips'); box.innerHTML='';
-  ROOM_OPTS.forEach(r=>{ const c=document.createElement('span'); c.className='chip room-chip'+(subRoomSel.includes(r)?' on':''); c.textContent=r;
-    c.onclick=()=>{ if(subRoomSel.includes(r)) subRoomSel=subRoomSel.filter(x=>x!==r); else subRoomSel.push(r); renderSubRoomChips(); }; box.appendChild(c); });
-}
-function showSubForm(){
-  editingSubId=null; subRoomSel=[];
-  document.getElementById('subFormTitle').textContent='Add Subcontractor';
-  ['subName','subTrade','subPhone','subDate','subScope','subNotes'].forEach(id=>{ document.getElementById(id).value=''; });
-  document.getElementById('subStatus').value='todo';
-  buildSubContactPick(); renderSubRoomChips();
-  document.getElementById('subFormCard').style.display='';
-  document.getElementById('subFormCard').scrollIntoView({behavior:'smooth',block:'center'});
-}
-function hideSubForm(){ document.getElementById('subFormCard').style.display='none'; editingSubId=null; }
-function saveSub(){
-  const name=document.getElementById('subName').value.trim();
-  const trade=document.getElementById('subTrade').value.trim();
-  if(!name && !trade){ alert('Add a name or trade first.'); return; }
-  const rec={ id: editingSubId||uid(), name:name, trade:trade,
-    phone:document.getElementById('subPhone').value.trim(),
-    date:document.getElementById('subDate').value.trim(),
-    status:document.getElementById('subStatus').value,
-    rooms:subRoomSel.slice(),
-    scope:document.getElementById('subScope').value.trim(),
-    notes:document.getElementById('subNotes').value.trim() };
-  if(editingSubId){ const i=state.subs.findIndex(s=>s.id===editingSubId); if(i>=0) state.subs[i]=rec; }
-  else state.subs.push(rec);
-  save(); hideSubForm(); renderSubs();
-}
-function editSub(id){
-  const s=state.subs.find(x=>x.id===id); if(!s) return;
-  editingSubId=id; subRoomSel=(s.rooms||[]).slice();
-  document.getElementById('subFormTitle').textContent='Edit Subcontractor';
-  buildSubContactPick();
-  document.getElementById('subName').value=s.name||'';
-  document.getElementById('subTrade').value=s.trade||'';
-  document.getElementById('subPhone').value=s.phone||'';
-  document.getElementById('subDate').value=s.date||'';
-  document.getElementById('subStatus').value=s.status||'todo';
-  document.getElementById('subScope').value=s.scope||'';
-  document.getElementById('subNotes').value=s.notes||'';
-  renderSubRoomChips();
-  document.getElementById('subFormCard').style.display='';
-  document.getElementById('subFormCard').scrollIntoView({behavior:'smooth',block:'center'});
-}
-function deleteSub(id){ if(!confirm('Delete this subcontractor?')) return; state.subs=state.subs.filter(s=>s.id!==id); save(); renderSubs(); }
-function cycleSubStatus(id){ const s=state.subs.find(x=>x.id===id); if(!s) return; const i=SUB_ST_ORDER.indexOf(s.status||'todo'); s.status=SUB_ST_ORDER[(i+1)%SUB_ST_ORDER.length]; save(); renderSubs(); }
-function subDateVal(d){ if(!d) return Infinity; const m=/(\d{1,2})\/(\d{1,2})/.exec(d); if(!m) return Infinity; return new Date(2026,(+m[1])-1,+m[2]).getTime(); }
-function renderSubs(){
-  const box=document.getElementById('subList'); if(!box) return;
-  const list=(state.subs||[]).slice().sort((a,b)=> subDateVal(a.date)-subDateVal(b.date));
-  if(!list.length){ box.innerHTML='<div class="note" style="margin:2px 0 10px;">No subs yet. Tap “+ Add Subcontractor”. Pick from Contacts to auto-fill name &amp; number.</div>'; return; }
-  box.innerHTML='';
-  list.forEach(s=>{
-    const st=s.status||'todo';
-    const div=document.createElement('div'); div.className='sub st-'+st;
-    const roomChips=(s.rooms||[]).map(r=>'<span class="chip ro room-chip">'+esc(r)+'</span>').join('');
-    const phone=(s.phone||'').trim();
-    const tel=phone?'<a href="tel:'+phone.replace(/[^0-9+]/g,'')+'">'+esc(phone)+'</a>':'';
-    const dateline=[esc(s.date||''), tel].filter(Boolean).join(' &nbsp;•&nbsp; ');
-    div.innerHTML=
-      '<div class="subtop"><div><span class="subname">'+esc(s.name||'(no name)')+'</span>'+(s.trade?' <span class="subtrade">'+esc(s.trade)+'</span>':'')+'</div>'+
-        '<span class="sst '+st+'" title="tap to advance status" onclick="cycleSubStatus(\''+s.id+'\')">'+SUB_ST_LABEL[st]+'</span></div>'+
-      (dateline?'<div class="subline">'+dateline+'</div>':'')+
-      (s.scope?'<div class="subscope">'+esc(s.scope)+'</div>':'')+
-      (roomChips?'<div class="chips" style="margin-top:6px;">'+roomChips+'</div>':'')+
-      (s.notes?'<div class="subnotes">'+esc(s.notes)+'</div>':'')+
-      '<div class="toolbar" style="margin-top:8px;"><button class="ghost btn sm" onclick="editSub(\''+s.id+'\')">Edit</button> '+
-        '<button class="danger btn sm" onclick="deleteSub(\''+s.id+'\')">Del</button></div>';
-    box.appendChild(div);
-  });
-}
-renderSubs();
 
 document.getElementById('rDate').value = new Date().toISOString().slice(0, 10);
 document.getElementById('rPending').value = state.pending || '';
@@ -873,297 +562,6 @@ function copyOut(btn) {
     setTimeout(() => { btn.textContent = 'Copy for WhatsApp'; }, 1800);
   });
 }
-/* ============ IndexedDB (photos + files) ============ */
-let db = null, photos = [], files = [], dbReady = false, dbError = '';
-function openDB(){
-  return new Promise((res, rej) => {
-    let r; try { r = indexedDB.open('hernandez_media', 1); } catch(e){ rej(e); return; }
-    r.onupgradeneeded = e => { const d = e.target.result;
-      if (!d.objectStoreNames.contains('photos')) d.createObjectStore('photos', { keyPath: 'id' });
-      if (!d.objectStoreNames.contains('files'))  d.createObjectStore('files',  { keyPath: 'id' }); };
-    r.onsuccess = e => { db = e.target.result; res(db); };
-    r.onerror = () => rej(r.error || new Error('storage blocked'));
-  });
-}
-function idbAll(s){ return new Promise((res, rej) => { const t = db.transaction(s,'readonly').objectStore(s).getAll(); t.onsuccess = () => res(t.result || []); t.onerror = () => rej(t.error); }); }
-function idbPut(s, rec){ return new Promise((res, rej) => { const t = db.transaction(s,'readwrite').objectStore(s).put(rec); t.onsuccess = () => res(); t.onerror = () => rej(t.error); }); }
-function idbDel(s, id){ return new Promise((res, rej) => { const t = db.transaction(s,'readwrite').objectStore(s).delete(id); t.onsuccess = () => res(); t.onerror = () => rej(t.error); }); }
-
-/* ============ photos ============ */
-let photoURLs = [];
-function setPhotoFilter(which, v){ if(which==='trade') state.photoTrade=v; else state.photoRoom=v; save(); renderPhotos(); }
-function buildPhotoFilters(){
-  const tf = document.getElementById('photoTradeFilter');
-  if (!tf.dataset.built){ let h='<option value="">All trades</option>'; TRADES.forEach(t=>h+='<option value="'+t+'">'+t+'</option>'); tf.innerHTML=h; tf.dataset.built='1'; }
-  tf.value = state.photoTrade;
-  const rf = document.getElementById('photoRoomFilter');
-  if (!rf.dataset.built){ let h='<option value="">All rooms</option>'; ROOM_NAMES.forEach(r=>h+='<option value="'+esc(r)+'">'+esc(r)+'</option>'); rf.innerHTML=h; rf.dataset.built='1'; }
-  rf.value = state.photoRoom;
-}
-function uploadPhotos(fileList){
-  if (!dbReady){ alert('Photo storage still loading — try again in a second.'); return; }
-  const arr = Array.from(fileList || []).filter(f => f.type.startsWith('image/'));
-  if (!arr.length) return;
-  Promise.all(arr.map(f => { const rec = { id: uid(), blob: f, name: f.name||'photo.jpg', date: todayStr(), ts: Date.now(), trade: state.photoTrade||'', room: state.photoRoom||'', caption: '' }; photos.push(rec); return idbPut('photos', rec); }))
-    .then(renderPhotos).catch(e => alert('Could not save photo: ' + e));
-}
-function updatePhoto(id, field, val){ const p = photos.find(x=>x.id===id); if(!p) return; p[field]=val; idbPut('photos', p); if(field!=='caption') renderPhotos(); }
-function deletePhoto(id){ if(!confirm('Delete this photo?')) return; photos = photos.filter(x=>x.id!==id); idbDel('photos', id).then(renderPhotos); }
-function renderPhotos(){
-  buildPhotoFilters();
-  const gal = document.getElementById('photoGallery');
-  photoURLs.forEach(u => URL.revokeObjectURL(u)); photoURLs = [];
-  if (!dbReady){ gal.innerHTML = dbError ? '<div class="empty">Photo storage unavailable on this device.<br>'+esc(dbError)+'</div>' : '<div class="empty">Loading…</div>'; return; }
-  let list = photos.slice();
-  if (state.photoTrade) list = list.filter(p => p.trade === state.photoTrade);
-  if (state.photoRoom)  list = list.filter(p => p.room === state.photoRoom);
-  if (!list.length){ gal.innerHTML = '<div class="empty">' + (photos.length ? 'No photos match this filter.' : 'No photos yet. Tap “+ Add Photos” to take or upload one.') + '</div>'; return; }
-  const groups = {}; list.forEach(p => { (groups[p.date] = groups[p.date] || []).push(p); });
-  const days = Object.keys(groups).sort((a,b)=> b.localeCompare(a));
-  gal.innerHTML = '';
-  days.forEach(day => {
-    const hd = document.createElement('div'); hd.className='dayh';
-    hd.innerHTML = '<span>' + fmtDay(day) + '</span><span class="c">' + groups[day].length + ' photo' + (groups[day].length>1?'s':'') + '</span>';
-    gal.appendChild(hd);
-    const grid = document.createElement('div'); grid.className='pgrid';
-    groups[day].sort((a,b)=> b.ts - a.ts).forEach(p => {
-      const url = URL.createObjectURL(p.blob); photoURLs.push(url);
-      const cell = document.createElement('div'); cell.className='pcell';
-      const tradeOpts = '<option value="">— trade —</option>' + TRADES.map(t=>'<option value="'+t+'"'+(p.trade===t?' selected':'')+'>'+t+'</option>').join('');
-      const roomOpts = '<option value="">— room —</option>' + ROOM_NAMES.map(r=>'<option value="'+esc(r)+'"'+(p.room===r?' selected':'')+'>'+esc(r)+'</option>').join('');
-      cell.innerHTML = '<img class="th" src="'+url+'" alt="">' +
-        '<div class="pm">' +
-          '<div class="prow2"><select onchange="updatePhoto(\''+p.id+'\',\'trade\',this.value)">'+tradeOpts+'</select>' +
-          '<select onchange="updatePhoto(\''+p.id+'\',\'room\',this.value)">'+roomOpts+'</select></div>' +
-          '<input type="text" value="'+esc(p.caption)+'" placeholder="caption" onchange="updatePhoto(\''+p.id+'\',\'caption\',this.value)">' +
-          '<div class="prow2"><input type="date" value="'+esc(p.date)+'" onchange="updatePhoto(\''+p.id+'\',\'date\',this.value)">' +
-          '<button class="danger btn sm" onclick="deletePhoto(\''+p.id+'\')">Del</button></div>' +
-        '</div>';
-      cell.querySelector('img.th').onclick = () => openLightbox(url, (p.caption?p.caption+' — ':'') + [p.trade,p.room].filter(Boolean).join(' • '));
-      grid.appendChild(cell);
-    });
-    gal.appendChild(grid);
-  });
-}
-function openLightbox(url, cap){ document.getElementById('lbImg').src=url; document.getElementById('lbCap').textContent=cap||''; document.getElementById('lightbox').classList.add('on'); }
-function closeLightbox(){ document.getElementById('lightbox').classList.remove('on'); }
-
-/* ============ files ============ */
-function setFileFilter(v){ state.fileCat=v; save(); renderFiles(); }
-function buildFileFilter(){ const ff = document.getElementById('fileCatFilter'); if(!ff.dataset.built){ let h='<option value="">All categories</option>'; FILE_CATS.forEach(c=>h+='<option value="'+esc(c)+'">'+esc(c)+'</option>'); ff.innerHTML=h; ff.dataset.built='1'; } ff.value = state.fileCat; }
-function fmtSize(b){ if(b==null) return ''; if(b<1024) return b+' B'; if(b<1048576) return (b/1024).toFixed(0)+' KB'; return (b/1048576).toFixed(1)+' MB'; }
-function fileExt(name){ const m=/\.([a-z0-9]+)$/i.exec(name||''); return m?m[1].toUpperCase().slice(0,4):'FILE'; }
-function uploadFiles(fileList){
-  if(!dbReady){ alert('File storage still loading — try again in a second.'); return; }
-  const arr = Array.from(fileList||[]); if(!arr.length) return;
-  Promise.all(arr.map(f => { const rec = { id: uid(), blob: f, name: f.name||'file', type: f.type||'', size: f.size, ts: Date.now(), cat: state.fileCat||'' }; files.push(rec); return idbPut('files', rec); }))
-    .then(renderFiles).catch(e => alert('Could not save file: '+e));
-}
-function updateFileCat(id, val){ const f=files.find(x=>x.id===id); if(!f) return; f.cat=val; idbPut('files', f); renderFiles(); }
-function openFile(id){ const f=files.find(x=>x.id===id); if(!f) return; const url=URL.createObjectURL(f.blob); window.open(url,'_blank'); setTimeout(()=>URL.revokeObjectURL(url), 60000); }
-function deleteFile(id){ if(!confirm('Delete this file?')) return; files=files.filter(x=>x.id!==id); idbDel('files', id).then(renderFiles); }
-function renderFiles(){
-  buildFileFilter();
-  const box = document.getElementById('fileList');
-  if(!dbReady){ box.innerHTML = dbError ? '<div class="empty">File storage unavailable on this device.<br>'+esc(dbError)+'</div>' : '<div class="empty">Loading…</div>'; return; }
-  let list = files.slice().sort((a,b)=> b.ts - a.ts);
-  if(state.fileCat) list = list.filter(f => f.cat === state.fileCat);
-  if(!list.length){ box.innerHTML = '<div class="empty">'+(files.length?'No files in this category.':'No files yet. Tap “+ Add Files” to store plans, permits, quotes — anything.')+'</div>'; return; }
-  box.innerHTML='';
-  list.forEach(f => {
-    const row = document.createElement('div'); row.className='frow';
-    const catOpts = '<option value="">— category —</option>' + FILE_CATS.map(c=>'<option value="'+esc(c)+'"'+(f.cat===c?' selected':'')+'>'+esc(c)+'</option>').join('');
-    const d = new Date(f.ts);
-    row.innerHTML = '<div class="fi">'+fileExt(f.name)+'</div>' +
-      '<div class="finfo"><div class="fn"><a href="javascript:void(0)" onclick="openFile(\''+f.id+'\')">'+esc(f.name)+'</a></div>' +
-        '<div class="fs">'+fmtSize(f.size)+' • '+(d.getMonth()+1)+'/'+d.getDate()+'/'+d.getFullYear()+'</div></div>' +
-      '<select onchange="updateFileCat(\''+f.id+'\',this.value)">'+catOpts+'</select>' +
-      '<button class="danger btn sm" onclick="deleteFile(\''+f.id+'\')">×</button>';
-    box.appendChild(row);
-  });
-}
-
-openDB().then(async () => { photos = await idbAll('photos'); files = await idbAll('files'); dbReady = true; renderPhotos(); renderFiles(); })
-  .catch(err => { dbError = (err && err.message) ? err.message : String(err); renderPhotos(); renderFiles(); });
-
-/* ============ backup / restore (export + import localStorage) ============ */
-function setBackupMsg(m){ const el=document.getElementById('backupMsg'); if(el) el.textContent=m; }
-function downloadBlob(blob, fname){
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a'); a.href=url; a.download=fname; document.body.appendChild(a); a.click(); document.body.removeChild(a);
-  setTimeout(()=>URL.revokeObjectURL(url), 4000);
-  setBackupMsg('Exported ' + fname + ' \u2014 check your downloads / share sheet.');
-}
-function exportBackup(){
-  const data = {};
-  for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); data[k]=localStorage.getItem(k); }
-  const payload = { app:'hernandez-site', type:'backup', version:1, exportedAt:new Date().toISOString(), data:data };
-  const json = JSON.stringify(payload, null, 2);
-  const fname = 'hernandez-backup-' + todayStr() + '.json';
-  const blob = new Blob([json], {type:'application/json'});
-  try {
-    if(navigator.canShare){
-      const file = new File([blob], fname, {type:'application/json'});
-      if(navigator.canShare({files:[file]})){
-        navigator.share({files:[file], title:'Hernandez backup', text:'Hernandez Site backup'}).then(()=>setBackupMsg('Shared '+fname)).catch(()=>downloadBlob(blob, fname));
-        return;
-      }
-    }
-  } catch(e){}
-  downloadBlob(blob, fname);
-}
-function mergeByKeyIncoming(ex, inc, keyFn){
-  const map = new Map(); const order = [];
-  (ex||[]).forEach(o=>{ const k=keyFn(o); if(!map.has(k)) order.push(k); map.set(k,o); });
-  (inc||[]).forEach(o=>{ const k=keyFn(o); if(!map.has(k)) order.push(k); map.set(k,o); });
-  return order.map(k=>map.get(k));
-}
-function mergeState(ex, inc){
-  const out = Object.assign({}, ex);
-  for(const k in inc){
-    const iv = inc[k];
-    if(k==='walkNotes'){ out.walkNotes = mergeByKeyIncoming(ex.walkNotes, iv, o=> (o && o.id) ? o.id : JSON.stringify(o)); }
-    else if(k==='subs'){ out.subs = mergeByKeyIncoming(ex.subs, iv, o=> (o && o.id) ? o.id : JSON.stringify(o)); }
-    else if(k==='items'){ out.items = mergeByKeyIncoming(ex.items, iv, o=> (o && o.t) ? o.t : JSON.stringify(o)); }
-    else if(k==='contacts'){ out.contacts = mergeByKeyIncoming(ex.contacts, iv, o=> ((o&&o.n)||'')+'|'+((o&&o.r)||'')); }
-    else if(iv && typeof iv==='object' && !Array.isArray(iv)){ out[k] = Object.assign({}, ex[k]||{}, iv); }
-    else { out[k] = iv; }
-  }
-  return out;
-}
-function importBackup(fileList){
-  const f = (fileList||[])[0]; if(!f) return;
-  const reader = new FileReader();
-  reader.onerror = () => alert('Could not read that file.');
-  reader.onload = () => {
-    let payload;
-    try { payload = JSON.parse(reader.result); } catch(e){ alert('That file is not valid JSON.'); return; }
-    const data = (payload && payload.data && typeof payload.data==='object') ? payload.data : ((payload && payload[LS]) ? payload : null);
-    if(!data || typeof data !== 'object'){ alert('This does not look like a Hernandez backup file.'); return; }
-    let incNotes = 0; try { incNotes = (JSON.parse(data[LS]||'{}').walkNotes||[]).length; } catch(e){}
-    if(!confirm('Import this backup? It will MERGE ' + incNotes + ' note(s) plus checklist, schedule and room data into this device. Nothing already here will be deleted.')) return;
-    try {
-      for(const k in data){
-        if(k === LS){
-          let ex={}, inc={};
-          try { ex = JSON.parse(localStorage.getItem(LS)||'{}'); } catch(e){}
-          try { inc = JSON.parse(data[k]); } catch(e){ inc={}; }
-          localStorage.setItem(LS, JSON.stringify(mergeState(ex, inc)));
-        } else if(localStorage.getItem(k) === null){
-          localStorage.setItem(k, data[k]);
-        }
-      }
-      alert('Backup imported. The app will now reload to show everything.');
-      location.reload();
-    } catch(e){ alert('Import failed: ' + e); }
-  };
-  reader.readAsText(f);
-}
-
-/* ============ walkthrough notes ============ */
-const WHO_OPTS = ['Client','Interior Designer','Contractor','Other'];
-const ROOM_OPTS = [...ROOM_NAMES, 'Exterior', 'Whole house'];
-let noteWhoSel = [], noteRoomSel = [], editingNoteId = null;
-// migrate single-room notes -> rooms array (preserves existing entries, no reset)
-(function migrateNotes(){
-  let changed = false;
-  state.walkNotes.forEach(n => { if (!Array.isArray(n.rooms)) { n.rooms = n.room ? [n.room] : []; changed = true; } });
-  if (changed) save();
-})();
-function noteRoomsOf(n){ return Array.isArray(n.rooms) ? n.rooms : (n.room ? [n.room] : []); }
-function buildNoteForm(){
-  document.getElementById('nDate').value = todayStr();
-  renderWhoChips(); renderRoomChips();
-}
-function renderWhoChips(){
-  const box = document.getElementById('nWhoChips'); box.innerHTML='';
-  WHO_OPTS.forEach(w => { const c = document.createElement('span'); c.className = 'chip' + (noteWhoSel.includes(w) ? ' on' : ''); c.textContent = w;
-    c.onclick = () => { if(noteWhoSel.includes(w)) noteWhoSel = noteWhoSel.filter(x=>x!==w); else noteWhoSel.push(w); renderWhoChips(); }; box.appendChild(c); });
-}
-function renderRoomChips(){
-  const box = document.getElementById('nRoomChips'); box.innerHTML='';
-  ROOM_OPTS.forEach(r => { const c = document.createElement('span'); c.className = 'chip room-chip' + (noteRoomSel.includes(r) ? ' on' : ''); c.textContent = r;
-    c.onclick = () => { if(noteRoomSel.includes(r)) noteRoomSel = noteRoomSel.filter(x=>x!==r); else noteRoomSel.push(r); renderRoomChips(); }; box.appendChild(c); });
-}
-function saveNote(){
-  const title = document.getElementById('nTitle').value.trim();
-  const body = document.getElementById('nBody').value.trim();
-  if(!title && !body){ alert('Add a title or some notes first.'); return; }
-  const rec = { id: editingNoteId || uid(), date: document.getElementById('nDate').value || todayStr(), who: noteWhoSel.slice(), rooms: noteRoomSel.slice(), title, body };
-  if(editingNoteId){ const i = state.walkNotes.findIndex(n=>n.id===editingNoteId); if(i>=0) state.walkNotes[i]=rec; }
-  else state.walkNotes.unshift(rec);
-  save(); clearNoteForm(); renderNotes();
-}
-function clearNoteForm(){
-  editingNoteId = null; noteWhoSel = []; noteRoomSel = [];
-  document.getElementById('nTitle').value=''; document.getElementById('nBody').value='';
-  document.getElementById('nDate').value=todayStr();
-  document.getElementById('noteFormTitle').textContent='New Walkthrough Note';
-  document.getElementById('noteSaveBtn').textContent='Save Note';
-  document.getElementById('noteCancelBtn').style.display='none';
-  renderWhoChips(); renderRoomChips();
-}
-function editNote(id){
-  const n = state.walkNotes.find(x=>x.id===id); if(!n) return;
-  editingNoteId = id; noteWhoSel = (n.who||[]).slice(); noteRoomSel = noteRoomsOf(n).slice();
-  document.getElementById('nDate').value=n.date;
-  document.getElementById('nTitle').value=n.title||''; document.getElementById('nBody').value=n.body||'';
-  document.getElementById('noteFormTitle').textContent='Edit Note';
-  document.getElementById('noteSaveBtn').textContent='Update';
-  document.getElementById('noteCancelBtn').style.display='';
-  renderWhoChips(); renderRoomChips(); window.scrollTo(0,0);
-}
-function deleteNote(id){ if(!confirm('Delete this note?')) return; state.walkNotes = state.walkNotes.filter(n=>n.id!==id); save(); if(editingNoteId===id) clearNoteForm(); renderNotes(); }
-function setNoteFilter(v){ state.noteWhoFilter=v; save(); renderNotes(); }
-function noteShareText(n){
-  const who = (n.who||[]); const rooms = noteRoomsOf(n);
-  const lines = ['Walkthrough Note — ' + fmtDay(n.date)];
-  if(who.length) lines.push('With: ' + who.join(', '));
-  if(rooms.length) lines.push('Room(s): ' + rooms.join(', '));
-  if(n.title) lines.push('', n.title);
-  if(n.body) lines.push('', n.body);
-  return lines.join('\n');
-}
-function legacyCopy(text, cb){
-  try { const ta=document.createElement('textarea'); ta.value=text; ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.focus(); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); } catch(e){}
-  if(cb) cb();
-}
-function flashCopied(id){
-  const b=document.getElementById('sh-'+id); if(!b) return; const t=b.textContent;
-  b.textContent='Copied ✓'; b.classList.add('copied');
-  setTimeout(()=>{ b.textContent=t; b.classList.remove('copied'); }, 1600);
-}
-function shareNote(id){
-  const n = state.walkNotes.find(x=>x.id===id); if(!n) return;
-  const text = noteShareText(n);
-  const title = n.title || ('Walkthrough Note — ' + fmtDay(n.date));
-  if(navigator.share){ navigator.share({ title: title, text: text }).catch(()=>{}); return; }
-  if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(text).then(()=>flashCopied(id)).catch(()=>legacyCopy(text, ()=>flashCopied(id))); }
-  else { legacyCopy(text, ()=>flashCopied(id)); }
-}
-function renderNotes(){
-  document.getElementById('noteWhoFilter').value = state.noteWhoFilter;
-  let list = state.walkNotes.slice().sort((a,b)=> (b.date||'').localeCompare(a.date||''));
-  if(state.noteWhoFilter && state.noteWhoFilter!=='all') list = list.filter(n => (n.who||[]).includes(state.noteWhoFilter));
-  document.getElementById('noteCount').textContent = list.length + (list.length===1?' note':' notes');
-  const box = document.getElementById('noteList');
-  if(!list.length){ box.innerHTML='<div class="empty">'+(state.walkNotes.length?'No notes match this filter.':'No notes yet. Add one above.')+'</div>'; return; }
-  box.innerHTML='';
-  list.forEach(n => {
-    const card = document.createElement('div'); card.className='ncard';
-    const whoChips = (n.who||[]).map(w=>'<span class="chip ro">'+esc(w)+'</span>').join('');
-    const roomChips = noteRoomsOf(n).map(r=>'<span class="chip ro room-chip">'+esc(r)+'</span>').join('');
-    card.innerHTML = '<div class="nctop"><span class="nd">'+fmtDay(n.date)+'</span>' +
-        '<span class="nbtns"><button class="ghost btn sm" id="sh-'+n.id+'" onclick="shareNote(\''+n.id+'\')">Share</button> ' +
-        '<button class="ghost btn sm" onclick="editNote(\''+n.id+'\')">Edit</button> ' +
-        '<button class="danger btn sm" onclick="deleteNote(\''+n.id+'\')">Del</button></span></div>' +
-      ((whoChips||roomChips)?'<div class="chips" style="margin-top:8px;">'+whoChips+roomChips+'</div>':'') +
-      (n.title?'<div class="nt">'+esc(n.title)+'</div>':'') +
-      (n.body?'<div class="nb">'+esc(n.body)+'</div>':'');
-    box.appendChild(card);
-  });
-}
-buildNoteForm(); renderNotes();
 </script>
 </body>
 </html>
